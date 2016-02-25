@@ -22,7 +22,7 @@ fun <T, R> Iterable<T>.pmap(numThreads: Int = Runtime.getRuntime().availableProc
     val destination = ArrayList<R>(if (this is Collection<*>) this.size else 10)
 
     for (item in this) {
-        exec.submit({ destination.add(transform(item)) })
+        exec.submit { destination.add(transform(item)) }
     }
 
     exec.shutdown()

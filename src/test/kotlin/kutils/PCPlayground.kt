@@ -9,7 +9,7 @@ fun main(args: Array<String>) {
         print("test:" + result.size)
     }
 
-
+//    val result = listOf("foo", "bar").pmap { it+"!" }.filter { it.contains("bar") }
 }
 
 fun time(msg: String = "runtime was ", body: () -> Any) {

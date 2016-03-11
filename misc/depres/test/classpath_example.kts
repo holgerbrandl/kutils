@@ -1,4 +1,6 @@
-#!/usr/bin/env kotlinc -script -classpath /Users/brandl/.m2/repository/org/docopt/docopt/0.6.0-SNAPSHOT/docopt-0.6.0-SNAPSHOT.jar
+#!/usr/bin/env kscript org.docopt:docopt:0.6.0-SNAPSHOT,log4j:log4j:1.2.14
+
+//#!/usr/bin/env kotlinc -script -classpath /Users/brandl/.m2/repository/org/docopt/docopt/0.6.0-SNAPSHOT/docopt-0.6.0-SNAPSHOT.jar
 
 import org.docopt.Docopt
 import java.util.*

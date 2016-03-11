@@ -17,10 +17,12 @@ defaultTasks 'run'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "de.mpicbg.scicomp:joblist_2.11:0.6-SNAPSHOT"
     testCompile 'junit:junit:4.11'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

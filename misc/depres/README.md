@@ -59,3 +59,12 @@ for dependency resolution also consider
 http://stackoverflow.com/questions/9407554/sbt-alternative-to-mvn-install-dskiptests
 
 Create a sinlge jar containing all dependencies (to ease deployment for non-published dependencies)
+
+## kotlinc shebang config
+
+http://unix.stackexchange.com/questions/20880/how-can-i-use-environment-variables-in-my-shebang
+
+Shebang lines do not undergo variable expansion, so you cannot use $FOO/MyCustomPython as it would search for an executable named dollar-F-O-O-...
+
+
+http://www.unix.com/shell-programming-and-scripting/44511-environment-variables-shebangs.html

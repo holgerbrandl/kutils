@@ -10,6 +10,7 @@ fun main(args: Array<String>) {
     }
 
 //    val result = listOf("foo", "bar").pmap { it+"!" }.filter { it.contains("bar") }
+    val result = listOf("foo", "bar").pmap(4, transform = { it + "!" })
 }
 
 fun time(msg: String = "runtime was ", body: () -> Any) {
@@ -17,3 +18,4 @@ fun time(msg: String = "runtime was ", body: () -> Any) {
     body()
     print("\n" + msg + ": " +  DecimalFormat("#0.##").format((System.nanoTime() - s) / 1e9) + "sec")
 }
+

@@ -1,2 +1,3 @@
 # kutils
-A random collection of kotlin utilities
+
+A collection of kotlin utilities

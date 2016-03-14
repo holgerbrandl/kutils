@@ -1,12 +1,12 @@
 #!/bin/bash
 
-### autoinstall mvncp if not yet present
-if [ -n "$(which mvncp)" ]; then
-
+### auto-install mvncp for automatic dependency resolution if not yet present
+if [ -z "$(which mvncp)" ]; then
+    curl -s https://raw.githubusercontent.com/holgerbrandl/kutils/master/misc/kscript/mvncp > ~/bin/kscript && chmod u+x ~/bin/mvncp
 fi
 
-
-classpath=$(mvncp ${1/,/ } 2>/dev/null)
+if [ -n "$1" ]; then
+    classpath=$(mvncp ${1/,/ } 2>/dev/null)
+fi
 shift
 exec kotlinc -script -classpath "$classpath" "$@"
-

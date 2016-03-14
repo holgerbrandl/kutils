@@ -6,7 +6,8 @@ if [ -z "$(which mvncp)" ]; then
 fi
 
 if [ -n "$1" ]; then
-    classpath=$(mvncp ${1/,/ } 2>/dev/null)
+#    classpath=$(mvncp ${1/,/ } 2>/dev/null)
+    classpath=$(mvncp $(echo "$1" | tr ',' " " | tr -d '"') 2>/dev/null)
 fi
 shift
-exec kotlinc -script -classpath "$classpath" "$@"
+echo kotlinc -script -classpath "$classpath" "$@"

@@ -19,3 +19,4 @@ fun time(msg: String = "runtime was ", body: () -> Any) {
     print("\n" + msg + ": " +  DecimalFormat("#0.##").format((System.nanoTime() - s) / 1e9) + "sec")
 }
 
+

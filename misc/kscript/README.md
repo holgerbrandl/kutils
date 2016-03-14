@@ -1,8 +1,9 @@
 ## kscript - Having fun with Kotlin scripting
 
 
-Easy-to-use scripting support for Kotlin on *nix-based systems.
+Easy-to-use scripting support for [Kotlin](https://kotlinlang.org/) on *nix-based systems.
 
+Kotlin has a limited support for scripting already but it's not feature-rich to be ready for a day to day use.
 
 ## Installation
 
@@ -71,7 +72,18 @@ The major advantage of using `kotlin-script` over `kscript` is that the former w
 
 
 
+Isssues
+=======
 
+Feel welcome to submit tickets.
+
+In general, there are several Kotlin language level issues associated with scripting. In particular
+ * [Allow running class files with '.class' extension in 'kotlin' script](https://youtrack.jetbrains.com/issue/KT-11164)
+ * [Add menu entry to create new kotlin .kts scripts](https://youtrack.jetbrains.com/issue/KT-10935)
+* [Better support for compiled scripts](https://youtrack.jetbrains.com/issue/KT-10533)  (see comments section)
+
+
+So if you like to make scripting with Kotlin even more awesome consider to upvote these issues in JetBrains' isssue tracker.
 
 
 

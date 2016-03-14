@@ -68,3 +68,9 @@ Shebang lines do not undergo variable expansion, so you cannot use $FOO/MyCustom
 
 
 http://www.unix.com/shell-programming-and-scripting/44511-environment-variables-shebangs.html
+
+
+## Caching
+
+http://stackoverflow.com/questions/12487424/uppercase-first-character-in-a-variable-with-bash
+https://youtrack.jetbrains.com/issue/KT-10533

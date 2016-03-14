@@ -1,5 +1,11 @@
 #!/bin/bash
 
+### autoinstall mvncp if not yet present
+if [ -n "$(which mvncp)" ]; then
+
+fi
+
+
 classpath=$(mvncp ${1/,/ } 2>/dev/null)
 shift
 exec kotlinc -script -classpath "$classpath" "$@"

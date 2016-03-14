@@ -10,4 +10,54 @@ if [ -n "$1" ]; then
     classpath=$(mvncp $(echo "$1" | tr ',' " " | tr -d '"') 2>/dev/null)
 fi
 shift
-echo kotlinc -script -classpath "$classpath" "$@"
+
+## directly run the script...
+#echo kotlinc -script -classpath "$classpath" "$@"
+
+## ... or use a cached version of it if possible
+#scriptFile="./test.kts"
+scriptFile=$1
+shift
+
+#jarFile=$(pwd)/${scriptFile%%.kts}.jar
+scriptCheckSum=$(md5 ${scriptFile} | awk '{ print $4 }')
+scriptCheckSum=${scriptCheckSum:0:6}
+
+jarFile=$(pwd)/.$(basename ${scriptFile} .kts).${scriptCheckSum}.jar
+
+
+## capialize first letter (since this is what kotlin compiler is doing for the wrapper
+className=$(basename ${scriptFile} .kts)
+#className="${className^}" ## disabled because requires bash4 and thus not on macos
+className=$(echo ${className:0:1} | tr  '[a-z]' '[A-Z]')${className:1}
+
+
+# build cache-jar if it does not yet exist
+if [ ! -f "${jarFile}" ]; then
+    kotlinc  -classpath "${classpath}" -d ${jarFile} ${scriptFile}
+
+    mainJava=$(mktemp -dt kscript)/Main_${className}.java
+
+    echo '
+    public class Main_'${className}' {
+        public static void main(String... args) throws Exception {
+            Class script = Main_'${className}'.class.getClassLoader().loadClass("'$className'");
+            script.getDeclaredConstructor(String[].class).newInstance((Object)args);
+        }
+    }
+    '> ${mainJava}
+
+    javac ${mainJava}  2> /dev/null
+
+    ## update the jar to include main-wrapper
+    (cd $(dirname ${mainJava}) && jar uf ${jarFile}  $(basename ${mainJava%%.java}.class))
+fi
+
+
+## disabled since kotlin binary fails to add kotlin-stdb when using jar as sole argument
+## update manifest to specify main class
+#echo "Main-Class: Main_${className}" > ${mainJava}.manimain
+#jar ufm ${jarFile} ${mainJava}.manimain
+#jar tf ${jarFile}
+
+exec kotlin -classpath ${jarFile}:"$classpath" Main_${className} asdf asdf

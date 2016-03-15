@@ -10,8 +10,10 @@ buildscript {
 
 apply plugin: 'kotlin'
 apply plugin: 'application'
+apply plugin: 'maven'
 
 //mainClassName = 'demo.HelloWorldKt'
+mainClassName = "kutils.Bash" // not needed but does not work without
 
 defaultTasks 'run'
 
@@ -22,11 +24,31 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "de.mpicbg.scicomp:joblist_2.11:0.6-SNAPSHOT"
+//    compile "de.mpicbg.scicomp:joblist_2.11:0.6-SNAPSHOT"
     testCompile 'junit:junit:4.11'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "2.7"
+    gradleVersion = "2.12"
 }
+
+// cd /Users/brandl/Dropbox/cluster_sync/scalautils && sbt publish
+// cd /Users/brandl/Dropbox/cluster_sync/joblist && sbt publish
+
+// https://docs.gradle.org/current/userguide/maven_plugin.html
+uploadArchives {
+    repositories {
+        mavenDeployer {
+//            pom.groupId = 'de.mpicbg.scicomp.bioinfo'
+//            pom.version = '0.1-SNAPSHOT'
+            pom.artifactId = 'kutils'
+
+            repository(url: "file://localhost/tmp/myRepo/")
+        }
+    }
+}
+
+//http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
+group = 'de.mpicbg.scicomp.bioinfo'
+version = '0.1-SNAPSHOT'

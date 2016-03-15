@@ -36,6 +36,10 @@ task wrapper(type: Wrapper) {
 // cd /Users/brandl/Dropbox/cluster_sync/scalautils && sbt publish
 // cd /Users/brandl/Dropbox/cluster_sync/joblist && sbt publish
 
+// cd ~/mnt/mack/bioinfo/holger/misc/Dropbox/cluster_sync/scalautils && sbt publish
+// cd ~/mnt/mack/bioinfo/holger/misc/Dropbox/cluster_sync/joblist && sbt publish
+// cd ~ &&  git clone https://github.com/holgerbrandl/kutils.git && cd kutils && gradle install
+
 // https://docs.gradle.org/current/userguide/maven_plugin.html
 uploadArchives {
     repositories {

@@ -1,9 +1,6 @@
 package kutils
 
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
+import java.io.*
 
 
 data class BashResult(val exitCode: Int, val stdout: Iterable<String>, val stderr: Iterable<String>) {
@@ -15,20 +12,29 @@ data class BashResult(val exitCode: Int, val stdout: Iterable<String>, val stder
 
 fun bashEval(cmd: String): BashResult {
 
-    try {
-        val proc = Runtime.getRuntime().exec("/bin/bash", arrayOf("-c", cmd))
 
-        val errorGobbler = StreamGobbler(proc.errorStream)
+    fun convertStreamToString(inStream: java.io.InputStream): String {
+        val s = java.util.Scanner(inStream).useDelimiter("\\A")
+        return if (s.hasNext()) s.next() else ""
+    }
+
+    try {
+
+        var pb = ProcessBuilder("/bin/bash", "-c", cmd) //.inheritIO();
+        pb.directory(File("."));
+        var p = pb.start();
+
+        val errorGobbler = StreamGobbler(p.getErrorStream())
 
         // any output?
-        val outputGobbler = StreamGobbler(proc.inputStream)
+        val outputGobbler = StreamGobbler(p.getInputStream())
 
         // kick them off
         errorGobbler.start()
         outputGobbler.start()
 
         // any error???
-        val exitVal = proc.waitFor()
+        val exitVal = p.waitFor()
         return BashResult(exitVal, outputGobbler.sb.lines(), errorGobbler.sb.lines())
     } catch (t: Throwable) {
         throw RuntimeException(t)
@@ -57,4 +63,7 @@ internal class StreamGobbler(var inStream: InputStream) : Thread() {
 
 fun main(args: Array<String>) {
     println("test")
+    println(bashEval("which STAR"))
+    println(bashEval("echo test"))
+    println(bashEval("echo errtest >&2"))
 }

@@ -22,7 +22,7 @@ fun <T> Iterable<T>.par(numThreads: Int = Runtime.getRuntime().availableProcesso
 }
 
 
-/** De-palatalize a collection. Undos <code>par</code> */
+/** De-parallelize a collection. Undos <code>par</code> */
 fun <T> ParCol<T>.unpar(): Iterable<T> {
     return this.it;
 }

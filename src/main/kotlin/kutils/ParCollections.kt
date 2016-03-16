@@ -32,13 +32,13 @@ fun <T, R> ParCol<T>.map(transform: (T) -> R): ParCol<R> {
     // note default size is just an inlined version of kotlin.collections.collectionSizeOrDefault
     val destination = ArrayList<R>(if (this is Collection<*>) this.size else 10)
 
-
-    for (item in this) {
-        executorService.submit { destination.add(transform(item)) }
-    }
+    // http://stackoverflow.com/questions/3269445/executorservice-how-to-wait-for-all-tasks-to-finish
+    // use futures here to allow for recycling of the executorservice
+    val futures = this.asIterable().map { executorService.submit { destination.add(transform(it)) } }
+    futures.map { it.get() } // this will block until all are done
 
     //    executorService.shutdown()
-    executorService.awaitTermination(1, TimeUnit.DAYS)
+    //    executorService.awaitTermination(1, TimeUnit.DAYS)
 
     return ParCol(destination, executorService)
 }
@@ -73,7 +73,7 @@ fun <T, R> Iterable<T>.pmap(numThreads: Int = Runtime.getRuntime().availableProc
 
 
 internal fun main(args: Array<String>) {
-    val totalLength = listOf("test", "sdf", "foo").par().map { it.length }.fold(0, { sum, el -> sum + el })
+    val totalLength = listOf("test", "sdf", "foo").par().map { it.length }.map { it + 2 }.fold(0, { sum, el -> sum + el })
     println(totalLength)
 
     //    listOf("test", "sdf", "foo").with {}

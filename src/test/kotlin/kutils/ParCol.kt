@@ -7,18 +7,18 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 
-interface ParCol<T> : Iterable<T> {
+class ParCol<T>(val it: Iterable<T>) : Iterable<T> by it
 
-}
 
-internal class ParColImpl<T>(init: Iterable<T>) : ArrayList<T>(0), ParCol<T> {
-    init {
-        addAll(init)
-    }
-}
-
+/** Convert a stream into a parallel collection. */
 fun <T> Iterable<T>.par(): ParCol<T> {
-    return ParColImpl<T>(this);
+    return ParCol(this);
+}
+
+
+/** De-palatalize a collection. Undos <code>par</code> */
+fun <T> ParCol<T>.unpar(): Iterable<T> {
+    return this.it;
 }
 
 
@@ -33,7 +33,7 @@ fun <T, R> ParCol<T>.map(numThreads: Int = Runtime.getRuntime().availableProcess
     exec.shutdown()
     exec.awaitTermination(1, TimeUnit.DAYS)
 
-    return ParColImpl(destination)
+    return ParCol(destination)
 }
 
 
@@ -42,5 +42,4 @@ fun main(args: Array<String>) {
     println(totalLength)
 
     //    listOf("test", "sdf", "foo").with {}
-
 }

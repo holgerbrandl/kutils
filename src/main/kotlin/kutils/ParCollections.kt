@@ -59,7 +59,8 @@ fun <T, R> Iterable<T>.parmap(numThreads: Int = Runtime.getRuntime().availablePr
 @Deprecated("use parmap() instead")
 fun <T, R> Iterable<T>.pmap(numThreads: Int = Runtime.getRuntime().availableProcessors() - 2, exec: ExecutorService = Executors.newFixedThreadPool(numThreads), transform: (T) -> R): List<R> {
     // note default size is just an inlined version of kotlin.collections.collectionSizeOrDefault
-    val destination = ArrayList<R>(if (this is Collection<*>) this.size else 10)
+    val defaultSize = if (this is Collection<*>) this.size else 10
+    val destination = Collections.synchronizedList(ArrayList<R>(defaultSize))
 
     for (item in this) {
         exec.submit { destination.add(transform(item)) }
@@ -68,7 +69,7 @@ fun <T, R> Iterable<T>.pmap(numThreads: Int = Runtime.getRuntime().availableProc
     exec.shutdown()
     exec.awaitTermination(1, TimeUnit.DAYS)
 
-    return destination
+    return ArrayList<R>(destination)
 }
 
 

@@ -2,7 +2,6 @@ package kutils.bioinfo
 
 import kutils.batch
 import kutils.buffered
-import kutils.div
 import kutils.saveAs
 import java.io.File
 import java.nio.file.Files
@@ -25,7 +24,7 @@ fun openFasta(fastaFile: File): Iterable<FastaRecord> {
 
 
 fun writeFasta(fastaRecords: Iterable<FastaRecord>, outputFile: File) {
-    fastaRecords.saveAs(outputFile, transform = { it.toEntryString })
+    fastaRecords.saveAs(outputFile, transform = { it.toEntryString() })
 }
 
 
@@ -55,15 +54,16 @@ fun Iterable<FastaRecord>.gcContent(): Double {
 }
 
 
-data class FastaRecord(val id: String, val description: String? = null, val sequence: String) {
+class FastaRecord(val id: String, val description: String? = null, val sequence: String) {
 
-    val toEntryString: String by lazy {
+    //    val toEntryString: String by lazy {
+    fun toEntryString(): String {
         // inspired from see https://github.com/agjacome/funpep
         // also interesting
         // see http://stackoverflow.com/questions/10530102/java-parse-string-and-add-line-break-every-100-characters
 
         val wrappedSeq = sequence.toCharArray().toList().batch(70).map { it.joinToString("\n") }
-        ">" + id + " " + (description ?: "") + "\n" + wrappedSeq + "\n"
+        return ">" + id + " " + (description ?: "") + "\n" + wrappedSeq + "\n"
     }
 }
 
@@ -92,64 +92,5 @@ internal class BufferedFastaReader(val file: File) : Iterator<FastaRecord> {
 
         // todo use string-builder directly in FastaRecord to speed up fasta-processing
         return FastaRecord(id, desc, sb.toString())
-    }
-}
-
-class FastaReadException(string: String) : Exception(string)
-
-
-//
-// Chunks
-//
-
-
-interface ChunkNamer {
-    fun getNext(): File
-}
-
-
-data class SimpleChunkNamer(val baseDir: File = File("fasta_chunks"), val prefix: String = "chunk_") : ChunkNamer {
-
-
-    var chunkCounter = 0
-
-
-    override fun getNext(): File {
-        chunkCounter = chunkCounter + 1
-        return baseDir / (prefix + chunkCounter + ".fasta")
-    }
-
-
-    /**
-     * List existing chunks
-     */
-    fun list(): List<File> {
-        val copyNamer = this.copy()
-        var chunkFile = copyNamer.getNext()
-
-        var chunks = emptyList<File>().toMutableList()
-        while (chunkFile.exists()) {
-            chunks.add(chunkFile)
-            chunkFile = copyNamer.getNext()
-        }
-
-        return chunks
-    }
-}
-
-
-/** Inspired by http://stackoverflow.com/questions/7459174/split-list-into-multiple-lists-with-fixed-number-of-elements. */
-// todo use proper api instead of static method to create chunks
-fun Iterable<FastaRecord>.createChunks(chunkSize: Int, namer: ChunkNamer = SimpleChunkNamer()): Sequence<File> {
-
-    return this.batch(chunkSize).map {
-        val nextChunkFile = namer.getNext()
-        if (!nextChunkFile.parentFile.exists()) nextChunkFile.parentFile.mkdir()
-
-        require(!nextChunkFile.exists()) { "$nextChunkFile is already present" } // make sure that we do not override existing chunk files
-
-        writeFasta(it, nextChunkFile)
-
-        nextChunkFile
     }
 }

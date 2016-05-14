@@ -26,7 +26,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 //    compile "de.mpicbg.scicomp:joblist_2.11:0.6-SNAPSHOT"
     testCompile 'junit:junit:4.11'
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testRuntime "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    compile "io.kotlintest:kotlintest:1.1.6"
 }
 
 task wrapper(type: Wrapper) {

@@ -31,12 +31,8 @@ internal class BatchingSequence<T>(val source: Iterable<T>, val batchSize: Int) 
 /** Buffered iterators are iterators which provide a method `head`
  *  that inspects the next element without discarding it.
  *
- *  This method is a simple copy from scala's collection API
+ *  This method is a simple conversion from scala's collection API
  *  @see [[scala.collection.BufferedIterator]]
- *
- *  @author  Martin Odersky
- *  @version 2.8
- *  @since   2.8
  */
 class BufferedIterator<A>(val wrappedIt: Iterator<A>) {
 

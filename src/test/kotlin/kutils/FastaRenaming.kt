@@ -24,12 +24,20 @@ fun main(args: Array<String>) {
 //            .forEach { println(it.toEntryString()) }
 
 
-//    data class SeqLength(val id: String, val length: Int)
 
     // lazy approach but does not create a new file
-//    val sortedIds = openFasta(fastaFile).asSequence()
-//            .map { SeqLength(it.id, it.sequence.length) }
-//            .sortedBy { it.length }
+    val sortedIds = openFasta(fastaFile).asSequence()
+            .map { it.id to it.sequence.length }
+            .sortedByDescending { it.second }
+            .mapIndexed { index, id2length ->
+                id2length.first to "dd_Smes_G2_${index + 1}"
+            }.toMap()
+
+    // rescan the fasta and replace IDs
+    openFasta(fastaFile).asSequence().map { it.copy(id = sortedIds[it.id]!!) }.asIterable().write(outputFile)
+
+    // print mapping as reference
+    sortedIds.forEach { println(it.key + "\t" + it.value) }
 
     exitProcess(0)
 

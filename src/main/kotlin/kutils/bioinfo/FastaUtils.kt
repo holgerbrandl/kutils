@@ -1,6 +1,5 @@
 package kutils.bioinfo
 
-import kutils.batch
 import kutils.buffered
 import kutils.saveAs
 import java.io.File
@@ -54,16 +53,25 @@ fun Iterable<FastaRecord>.gcContent(): Double {
 }
 
 
-class FastaRecord(val id: String, val description: String? = null, val sequence: String) {
+data class FastaRecord(val id: String, val description: String? = null, val sequence: String) {
 
     //    val toEntryString: String by lazy {
-    fun toEntryString(): String {
+    fun toEntryString(lineLength: Int = 120): String {
         // inspired from see https://github.com/agjacome/funpep
         // also interesting
         // see http://stackoverflow.com/questions/10530102/java-parse-string-and-add-line-break-every-100-characters
 
-        val wrappedSeq = sequence.toCharArray().toList().batch(70).map { it.joinToString("\n") }
-        return ">" + id + " " + (description ?: "") + "\n" + wrappedSeq + "\n"
+//        val wrappedSeq = sequence.toCharArray().toList().batch(70).map{ it.joinToString("")  }.joinToString ("\n" )
+
+        // faster impl
+        val wrappedSeq = StringBuilder(sequence.length)
+        var index = 0
+        while (index < sequence.length) {
+            wrappedSeq.append(sequence.substring(index, Math.min(index + lineLength, sequence.length)) + "\n")
+            index += lineLength;
+        }
+
+        return ">" + id + " " + (description ?: "") + "\n" + wrappedSeq
     }
 }
 

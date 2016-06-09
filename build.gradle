@@ -34,6 +34,16 @@ task wrapper(type: Wrapper) {
     gradleVersion = "2.12"
 }
 
+// http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 // cd /Users/brandl/Dropbox/cluster_sync/scalautils && sbt publish
 // cd /Users/brandl/Dropbox/cluster_sync/joblist && sbt publish
 
@@ -56,4 +66,4 @@ uploadArchives {
 
 //http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
 group = 'de.mpicbg.scicomp.bioinfo'
-version = '0.1-SNAPSHOT'
+version = '0.1'

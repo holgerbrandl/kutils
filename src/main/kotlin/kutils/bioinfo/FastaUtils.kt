@@ -56,7 +56,7 @@ fun Iterable<FastaRecord>.gcContent(): Double {
 data class FastaRecord(val id: String, val description: String? = null, val sequence: String) {
 
     //    val toEntryString: String by lazy {
-    fun toEntryString(lineLength: Int = 10): String {
+    fun toEntryString(lineLength: Int = 100): String {
         // inspired from see https://github.com/agjacome/funpep
         // also interesting
         // see http://stackoverflow.com/questions/10530102/java-parse-string-and-add-line-break-every-100-characters

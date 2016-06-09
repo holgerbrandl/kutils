@@ -13,7 +13,7 @@ fun File.changeExt(old: String, new: String): File {
     return destName
 }
 
-fun <T> Iterable<T>.saveAs(f: java.io.File, overwrite: Boolean = false, transform: (T) -> String = { it.toString() }) {
+fun <T> Iterable<T>.saveAs(f: java.io.File, overwrite: Boolean = true, transform: (T) -> String = { it.toString() }) {
     if (f.isFile && !overwrite) {
         throw IllegalArgumentException("$f is present already")
     }

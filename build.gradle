@@ -30,9 +30,9 @@ dependencies {
     compile "io.kotlintest:kotlintest:1.1.6"
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "2.12"
-}
+//task wrapper(type: Wrapper) {
+//    gradleVersion = "2.13"
+//}
 
 // http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -66,4 +66,4 @@ uploadArchives {
 
 //http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
 group = 'de.mpicbg.scicomp.bioinfo'
-version = '0.1'
+version = '0.2'

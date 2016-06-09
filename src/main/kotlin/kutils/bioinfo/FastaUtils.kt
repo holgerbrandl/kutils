@@ -27,7 +27,6 @@ fun writeFasta(fastaRecords: Iterable<FastaRecord>, outputFile: File) {
 }
 
 
-
 // how to prevent that the iterator progresses when using it --> use iterable
 
 // http://stackoverflow.com/questions/19804928/scala-writing-string-iterator-to-file-in-efficient-way
@@ -94,7 +93,7 @@ internal class BufferedFastaReader(val file: File) : Iterator<FastaRecord> {
         } while (fileIt.hasNext() && !fileIt.head()!!.startsWith(">"))
 
         // Remove prepending '>' and separate description from id
-        val header = tag.drop(1).trim().split("\\s+")
+        val header = tag.drop(1).trim().split("\\s".toRegex(), 2)
         val id = header.get(0)
         val desc = if (header.size == 2) header.drop(1).joinToString(" ") else null
 

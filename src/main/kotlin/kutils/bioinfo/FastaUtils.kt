@@ -71,7 +71,7 @@ data class FastaRecord(val id: String, val description: String? = null, val sequ
             index += lineLength;
         }
 
-        return ">" + id + " " + (description ?: "") + "\n" + wrappedSeq
+        return ">" + (id + " " + (description ?: "")).trim() + "\n" + wrappedSeq
     }
 }
 

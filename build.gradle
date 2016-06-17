@@ -46,7 +46,6 @@ artifacts {
 
 // cd /Users/brandl/Dropbox/cluster_sync/scalautils && sbt publish
 // cd /Users/brandl/Dropbox/cluster_sync/joblist && sbt publish
-
 // cd ~/mnt/mack/bioinfo/holger/misc/Dropbox/cluster_sync/scalautils && sbt publish
 // cd ~/mnt/mack/bioinfo/holger/misc/Dropbox/cluster_sync/joblist && sbt publish
 // cd ~ &&  git clone https://github.com/holgerbrandl/kutils.git && cd kutils && gradle install

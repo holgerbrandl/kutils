@@ -89,13 +89,13 @@ fun builSession(genome: String, tracks: List<IGVTrack>): String {
 
 }
 
-fun guessTracks(vararg trackFiles: String) = guessTracks(*trackFiles.map { File(it) }.toTypedArray())
+fun guessTracks(vararg trackFiles: String) = guessTracks(trackFiles.map { File(it) })
 
-fun guessTracks(vararg trackFiles: File) = trackFiles.map {
+fun guessTracks(trackFiles: List<File>) = trackFiles.map {
     when {
-        it.name.endsWith(".bed") -> BedTrack(it)
+        it.name.endsWith(".bed") || it.name.endsWith(".bed.gz") -> BedTrack(it)
+        it.name.endsWith(".vcf") || it.name.endsWith(".vcf.gz") -> VcfTrack(it)
         it.name.endsWith(".bam") -> BamTrack(it)
-        it.name.endsWith(".vcf") -> VcfTrack(it)
         it.name.endsWith(".bw") -> VcfTrack(it)
         else -> throw IllegalArgumentException("unsupported track type")
     }

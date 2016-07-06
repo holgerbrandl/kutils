@@ -4,7 +4,7 @@ IGV Session File Generator
 
 Generate igv session files using [kscript](https://github.com/holgerbrandl/kscript) and a little [support API](IgvSessionGen.kt) written in [Kotlin](https://kotlinlang.org/)
 
-To get started setup []kscript and kotlin
+To get started setup kscript and kotlin
 ```
 ## install kotlin via sdkman http://sdkman.io/
 curl -s get.sdkman.io | bash
@@ -15,7 +15,7 @@ curl -L -o ~/bin/kscript https://git.io/vaoNi && chmod u+x ~/bin/kscript
 ```
 
 
-First Example assuming that you
+Basic example assuming that you some bams and beds, which creates a session file called `test_session.igv.xml`
 
 ```
 kscript - <<"EOF" > test_session.igv.xml
@@ -36,7 +36,24 @@ EOF
 
 This kscript is self-contained because `kscript` will fetch dependencies as needed and strictly versioned.
 
-Another example that incoporates an existing list of v
+Another example that incoporates an existing list of bam files stored in a bash variable:
+
+```bash
+bamFiles="foo.bam /some/where/bar.bam"
+genome="mm10"
+
+kscript - <<EOF > tee another_session.igv.xml
+//DEPS de.mpicbg.scicomp:kutils:0.2-SNAPSHOT
+
+import de.mpicbg.scicomp.bioinfo.igv.*
+import java.io.File
+
+val genome = "$genome"
+val tracks = guessTracks("$bamFiles".split(" ").map{ File(it) })
+
+println(builSession(genome, tracks))
+EOF
+```
 
 ToDo
 ----

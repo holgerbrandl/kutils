@@ -5,7 +5,8 @@ IGV Session File Generator
 Generate igv session files using [kscript](https://github.com/holgerbrandl/kscript) and a little [support API](IgvSessionGen.kt) written in [Kotlin](https://kotlinlang.org/)
 
 To get started setup kscript and kotlin
-```
+
+```bash
 ## install kotlin via sdkman http://sdkman.io/
 curl -s get.sdkman.io | bash
 sdk install kotlin
@@ -15,9 +16,9 @@ curl -L -o ~/bin/kscript https://git.io/vaoNi && chmod u+x ~/bin/kscript
 ```
 
 
-Basic example assuming that you some bams and beds, which creates a session file called `test_session.igv.xml`
+Basic example assuming that you have some bams and beds to build the session from, which creates a session file called `test_session.igv.xml`
 
-```
+```bash
 kscript - <<"EOF" > test_session.igv.xml
 //DEPS de.mpicbg.scicomp:kutils:0.2-SNAPSHOT
 

@@ -40,7 +40,7 @@ class VcfTrack(val vcfFile: File) : IGVTrack {
     override fun toTrackXML(): String = """        <Track SQUISHED_ROW_HEIGHT="4" altColor="0,0,178" autoScale="false" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorMode="GENOTYPE" displayMode="EXPANDED" featureVisibilityWindow="1998000" fontSize="10" id="${vcfFile.absolutePath}" name="${vcfFile.name.removeSuffix(".gz").removeSuffix("vcf")}" renderer="BASIC_FEATURE" sortable="false" visible="true" windowFunction="count"/>"""
 }
 
-class BedTrack(val bedFile: File, ) : IGVTrack {
+class BedTrack(val bedFile: File) : IGVTrack {
     constructor(bedFile: String) : this(File(bedFile))
 
     override fun getResourceFile(): File = bedFile

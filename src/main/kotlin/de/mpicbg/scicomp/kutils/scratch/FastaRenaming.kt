@@ -1,5 +1,7 @@
 package de.mpicbg.scicomp.kutils.scratch
 
+import de.mpicbg.scicomp.bioinfo.openFasta
+import de.mpicbg.scicomp.bioinfo.write
 import java.io.File
 import kotlin.system.exitProcess
 

@@ -13,7 +13,7 @@ apply plugin: 'application'
 apply plugin: 'maven'
 
 //mainClassName = 'demo.HelloWorldKt'
-mainClassName = "kutils.Bash" // not needed but does not work without
+mainClassName = "de.mpicbg.scicomp.kutils.BashKt" // not needed but does not work without
 
 defaultTasks 'run'
 

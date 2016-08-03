@@ -1,4 +1,4 @@
-package kutils
+package de.mpicbg.scicomp.kutils
 
 import java.util.*
 import java.util.concurrent.ExecutorService

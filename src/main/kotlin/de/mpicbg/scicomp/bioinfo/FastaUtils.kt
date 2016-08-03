@@ -1,7 +1,7 @@
-package kutils.bioinfo
+package de.mpicbg.scicomp.bioinfo
 
-import kutils.buffered
-import kutils.saveAs
+import de.mpicbg.scicomp.kutils.buffered
+import de.mpicbg.scicomp.kutils.saveAs
 import java.io.File
 import java.nio.file.Files
 import java.util.*

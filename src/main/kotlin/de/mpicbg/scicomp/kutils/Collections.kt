@@ -1,4 +1,4 @@
-package kutils
+package de.mpicbg.scicomp.kutils
 
 /**
  * Collection utils that I missed or are missing in Kotlin's stdlib.

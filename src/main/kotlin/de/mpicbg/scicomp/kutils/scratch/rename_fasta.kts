@@ -1,7 +1,5 @@
-package kutils.scratch
+package de.mpicbg.scicomp.kutils.scratch
 
-import kutils.bioinfo.openFasta
-import kutils.bioinfo.write
 import java.io.File
 
 

@@ -1,4 +1,4 @@
-package kutils.bioinfo
+package de.mpicbg.scicomp.bioinfo
 
 
 fun Array<Double>.mean() = this.sum() / this.size

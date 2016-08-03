@@ -1,6 +1,7 @@
-package kutils
+package de.mpicbg.scicomp.kutils
 
 import java.io.File
+import java.io.PrintWriter
 
 
 operator fun File.div(childName: String): File {
@@ -13,12 +14,12 @@ fun File.changeExt(old: String, new: String): File {
     return destName
 }
 
-fun <T> Iterable<T>.saveAs(f: java.io.File, overwrite: Boolean = true, transform: (T) -> String = { it.toString() }) {
+fun <T> Iterable<T>.saveAs(f: File, overwrite: Boolean = true, transform: (T) -> String = { it.toString() }) {
     if (f.isFile && !overwrite) {
         throw IllegalArgumentException("$f is present already")
     }
 
-    val p = java.io.PrintWriter(f)
+    val p = PrintWriter(f)
 
     for (t in this) {
         p.write(transform(t))

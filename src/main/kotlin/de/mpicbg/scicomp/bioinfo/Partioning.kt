@@ -1,8 +1,8 @@
-package kutils.bioinfo
+package de.mpicbg.scicomp.bioinfo
 
-import kutils.batch
-import kutils.div
-import kutils.saveAs
+import de.mpicbg.scicomp.kutils.batch
+import de.mpicbg.scicomp.kutils.div
+import de.mpicbg.scicomp.kutils.saveAs
 import java.io.File
 
 

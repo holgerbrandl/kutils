@@ -44,10 +44,19 @@ data class SimpleChunkNamer(val baseDir: File = File("fasta_chunks"), val prefix
     }
 }
 
+interface ItemSerializer<T> {
+    fun serialize(record: T): String
+}
+
+class ToStringSerializer<T> : ItemSerializer<T> {
+    override fun serialize(record: T): String {
+        return record.toString()
+    }
+}
 
 /** Inspired by http://stackoverflow.com/questions/7459174/split-list-into-multiple-lists-with-fixed-number-of-elements. */
 // todo use proper api instead of static method to create chunks
-fun Iterable<EntryStringable>.createChunks(chunkSize: Int, namer: ChunkNamer = SimpleChunkNamer()): Sequence<File> {
+fun <T> Iterable<T>.createChunks(chunkSize: Int, namer: ChunkNamer = SimpleChunkNamer(), serializer: ItemSerializer<T> = ToStringSerializer()): Sequence<File> {
 
     return this.batch(chunkSize).map {
         val nextChunkFile = namer.getNext()
@@ -55,7 +64,7 @@ fun Iterable<EntryStringable>.createChunks(chunkSize: Int, namer: ChunkNamer = S
 
         require(!nextChunkFile.exists()) { "$nextChunkFile is already present" } // make sure that we do not override existing chunk files
 
-        this.saveAs(nextChunkFile, transform = { it.toEntryString() })
+        it.saveAs(nextChunkFile, transform = { serializer.serialize(it) })
 
         nextChunkFile
     }

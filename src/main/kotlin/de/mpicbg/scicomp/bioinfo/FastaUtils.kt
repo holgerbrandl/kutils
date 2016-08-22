@@ -33,7 +33,7 @@ fun writeFasta(fastaRecords: Iterable<FastaRecord>, outputFile: File) {
 fun Iterable<FastaRecord>.write(outputFile: File) = writeFasta(this, outputFile)
 
 
-fun Iterable<FastaRecord>.shuffle() = Collections.shuffle(this.toList())
+fun Iterable<FastaRecord>.shuffle() = toList().apply { Collections.shuffle(this) }
 
 
 //    http://stackoverflow.com/questions/12105130/generating-a-frequency-map-for-a-string-in-scala
@@ -72,6 +72,11 @@ data class FastaRecord(val id: String, val description: String? = null, val sequ
 
         return ">" + (id + " " + (description ?: "")).trim() + "\n" + wrappedSeq
     }
+}
+
+class FastaRecordSerializer(val lineLength: Int = 100) : ItemSerializer<FastaRecord> {
+
+    override fun serialize(record: FastaRecord): String = record.toEntryString(lineLength)
 }
 
 

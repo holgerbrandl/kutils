@@ -14,16 +14,13 @@ fun File.changeExt(old: String, new: String): File {
     return destName
 }
 
-fun <T> Iterable<T>.saveAs(f: File, overwrite: Boolean = true, transform: (T) -> String = { it.toString() }) {
+fun <T> Iterable<T>.saveAs(f: File, overwrite: Boolean = true, transform: (T) -> String) {
     if (f.isFile && !overwrite) {
         throw IllegalArgumentException("$f is present already")
     }
 
     val p = PrintWriter(f)
-
-    for (t in this) {
-        p.write(transform(t))
-    }
+    toList().forEach { p.write(transform(it)) }
 
     p.close()
 }

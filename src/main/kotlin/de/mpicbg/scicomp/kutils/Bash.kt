@@ -60,7 +60,7 @@ internal class StreamGobbler(var inStream: InputStream, val printStream: PrintSt
 }
 
 
-class ShellUtils {
+object ShellUtils {
 
     fun isInPath(tool: String) = evalBash("which $tool").sout().trim().isNotBlank()
 

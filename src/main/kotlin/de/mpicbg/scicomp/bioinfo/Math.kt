@@ -10,3 +10,6 @@ fun Array<Double>.median() = {
     if (this.size % 2 == 0) (lower.last() + upper.first()) / 2.0 else upper.first()
 }
 
+//http://stackoverflow.com/questions/23086291/format-in-kotlin-string-templates
+fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
+

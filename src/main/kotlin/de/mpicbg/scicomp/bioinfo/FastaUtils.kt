@@ -21,16 +21,16 @@ fun openFasta(fastaFile: File): Iterable<FastaRecord> {
     return BufferedFastaReader(fastaFile).asSequence().asIterable()
 }
 
-
-fun writeFasta(fastaRecords: Iterable<FastaRecord>, outputFile: File) {
+fun write(fastaRecords: Iterable<FastaRecord>, outputFile: File) {
     fastaRecords.saveAs(outputFile, transform = { it.toEntryString() })
 }
-
 
 // how to prevent that the iterator progresses when using it --> use iterable
 
 // http://stackoverflow.com/questions/19804928/scala-writing-string-iterator-to-file-in-efficient-way
-fun Iterable<FastaRecord>.write(outputFile: File) = writeFasta(this, outputFile)
+fun Iterable<FastaRecord>.writeFasta(outputFile: File) = write(this, outputFile)
+
+fun Iterable<FastaRecord>.writeFasta(outputFile: String) = write(this, File(outputFile))
 
 
 fun Iterable<FastaRecord>.shuffle() = toList().apply { Collections.shuffle(this) }

@@ -1,5 +1,7 @@
-package de.mpicbg.scicomp.kutils.scratch
+package de.mpicbg.scicomp.scratch
 
+import de.mpicbg.scicomp.bioinfo.openFasta
+import de.mpicbg.scicomp.bioinfo.writeFasta
 import java.io.File
 
 
@@ -18,7 +20,7 @@ val sortedIds = openFasta(fastaFile).asSequence()
 // rescan the fasta and replace IDs
 openFasta(fastaFile).asSequence()
         .map { it.copy(id = sortedIds[it.id]!!, description = "") }
-        .asIterable().write(outputFile)
+        .asIterable().writeFasta(outputFile)
 
 // print mapping as reference
 sortedIds.forEach { println(it.value + "\t" + it.key) }

@@ -1,4 +1,4 @@
-package de.mpicbg.scicomp.kutils.scratch
+package de.mpicbg.scicomp.scratch
 
 import de.mpicbg.scicomp.kscript.processLines
 import de.mpicbg.scicomp.kscript.processStdin

@@ -15,7 +15,7 @@ interface ChunkNamer {
 }
 
 
-data class SimpleChunkNamer(val baseDir: File = File("fasta_chunks"), val prefix: String = "chunk_") : ChunkNamer {
+data class SimpleChunkNamer(val prefix: String = "chunk_", val baseDir: File = File(".")) : ChunkNamer {
 
 
     var chunkCounter = 0
@@ -55,7 +55,6 @@ class ToStringSerializer<T> : ItemSerializer<T> {
 }
 
 /** Inspired by http://stackoverflow.com/questions/7459174/split-list-into-multiple-lists-with-fixed-number-of-elements. */
-// todo use proper api instead of static method to create chunks
 fun <T> Iterable<T>.createChunks(chunkSize: Int, namer: ChunkNamer = SimpleChunkNamer(), serializer: ItemSerializer<T> = ToStringSerializer()): Sequence<File> {
 
     return this.batch(chunkSize).map {
@@ -69,3 +68,4 @@ fun <T> Iterable<T>.createChunks(chunkSize: Int, namer: ChunkNamer = SimpleChunk
         nextChunkFile
     }
 }
+

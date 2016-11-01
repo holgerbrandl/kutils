@@ -106,3 +106,35 @@ internal class BufferedFastaReader(val file: File) : Iterator<FastaRecord> {
         return FastaRecord(id, desc, sb.toString())
     }
 }
+
+
+fun Iterable<FastaRecord>.createSizeBalancedChunks(maxChunkSizeKB: Int, namer: ChunkNamer = SimpleChunkNamer()): List<File> {
+    val sortedSeqs = sortedBy { it.sequence.length }.toMutableList()
+
+    val chunkFiles: MutableList<File> = emptyList<File>().toMutableList()
+
+    while (sortedSeqs.isNotEmpty()) {
+        val longSeq = sortedSeqs.removeAt(0)
+
+        val chunkList = mutableListOf(longSeq)
+        var cumChunkSize = longSeq.sequence.length
+
+        while (sortedSeqs.isNotEmpty() && cumChunkSize < maxChunkSizeKB * 1000) {
+            val shortSeq = sortedSeqs.removeAt(sortedSeqs.size - 1)
+
+            cumChunkSize += shortSeq.sequence.length
+            chunkList.add(shortSeq)
+        }
+
+        // write chunk file
+        val nextChunkFile = namer.getNext()
+
+        if (!nextChunkFile.parentFile.exists()) nextChunkFile.parentFile.mkdir()
+        require(!nextChunkFile.exists()) { "$nextChunkFile is already present" } // make sure that we do not override existing chunk files
+
+        chunkList.writeFasta(nextChunkFile)
+        chunkFiles.add(nextChunkFile)
+    }
+
+    return chunkFiles
+}

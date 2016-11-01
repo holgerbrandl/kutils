@@ -1,7 +1,7 @@
-package de.mpicbg.scicomp.kutils.scratch
+package de.mpicbg.scicomp.scratch
 
 import de.mpicbg.scicomp.bioinfo.openFasta
-import de.mpicbg.scicomp.bioinfo.write
+import de.mpicbg.scicomp.bioinfo.writeFasta
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
 // rescan the fasta and replace IDs
     openFasta(fastaFile).asSequence()
             .map { it.copy(id = sortedIds[it.id]!!) }
-            .asIterable().write(outputFile)
+            .asIterable().writeFasta(outputFile)
 
 // print mapping as reference
     sortedIds.forEach { println(it.value + "\t" + it.key) }
@@ -49,7 +49,7 @@ fun main2(args: Array<String>) {
                 println(newId + "\t" + fr.sequence.length + "\t" + fr.id)
 
                 fr.copy(id = newId)
-            }.write(outputFile)
+            }.writeFasta(outputFile)
 //            .forEach { println(it.toEntryString()) }
 
 

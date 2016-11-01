@@ -1,6 +1,10 @@
 ## Deployment
 
-Upload artifacts to:
+```
+grade install
+```
+
+Upload artifacts from ~/.m2/repository/de/mpicbg/scicomp/kutils to:
 https://bintray.com/holgerbrandl/mpicbg-scicomp/kutils
 
 Check for release status on

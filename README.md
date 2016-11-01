@@ -6,7 +6,7 @@
 
 To use them add
 ```
-compile 'de.mpicbg.scicomp:kutils:0.3'
+compile 'de.mpicbg.scicomp:kutils:0.4'
 ```
 to your dependencies.
 

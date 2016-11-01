@@ -2,7 +2,7 @@
 
 create_chunks(){
 kscript - $@ <<"EOF"
-//DEPS de.mpicbg.scicomp:kutils:0.4-SNAPSHOT
+//DEPS de.mpicbg.scicomp:kutils:0.4
 import de.mpicbg.scicomp.bioinfo.*
 
 if(args.size!=2){ System.err.println("Usage: create_chunks <fasta> <chunk_size_kb>"); kotlin.system.exitProcess(1); }

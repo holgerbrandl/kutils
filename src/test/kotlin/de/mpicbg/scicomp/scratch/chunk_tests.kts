@@ -1,4 +1,4 @@
-//kotlinc -cp $(expandcp.kts de.mpicbg.scicomp:kutils:0.4-SNAPSHOT)
+//kotlinc -cp $(expandcp.kts de.mpicbg.scicomp:kutils:0.4)
 //DEPS de.mpicbg.scicomp:kutils:0.3
 //KOTLIN_OPTS -J-Xmx5g
 

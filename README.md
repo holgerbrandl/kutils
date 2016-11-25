@@ -23,3 +23,23 @@ to your dependencies.
 ## Questions & Comments
 
 Feel welcome to flood the isssue tracker with requests.
+
+## Examples
+
+Most examples rely on [kscript](https://github.com/holgerbrandl/kscript) for shell integration
+
+Filter a fasta file with a provided set of ids:
+```bash
+kscript id.lst some.fasta <<"EOF"
+// DEPS de.mpicbg.scicomp:kutils:0.4
+import de.mpicbg.scicomp.bioinfo.openFasta
+import java.io.File
+
+val filterIds = File(args[0]).readLines()
+
+openFasta(args[1]).
+        filter { !filterIds.contains(it) }.
+        forEach { print(it.toEntryString()) }
+EOF
+
+```

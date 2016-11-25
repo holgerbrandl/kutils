@@ -30,7 +30,7 @@ Most examples rely on [kscript](https://github.com/holgerbrandl/kscript) for she
 
 Filter a fasta file with a provided set of ids:
 ```bash
-kscript id.lst some.fasta <<"EOF"
+kscript - id.lst some.fasta <<"EOF"
 // DEPS de.mpicbg.scicomp:kutils:0.4
 import de.mpicbg.scicomp.bioinfo.openFasta
 import java.io.File

@@ -20,7 +20,7 @@ fun <T> Iterable<T>.saveAs(f: File, overwrite: Boolean = true, transform: (T) ->
     }
 
     val p = PrintWriter(f)
-    toList().forEach { p.write(transform(it)) }
+    toList().forEach { p.write(transform(it) + "\n") }
 
     p.close()
 }

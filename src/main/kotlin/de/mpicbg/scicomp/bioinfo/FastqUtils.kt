@@ -87,6 +87,8 @@ class FastqRecord(val id: String, val sequence: String, val qualString: String) 
     override fun toEntryString(): String {
         return id + "\n" + sequence + "\n+\n" + qualString + "\n"
     }
+
+    override fun toString(): String = toEntryString()
 }
 
 

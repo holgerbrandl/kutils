@@ -72,6 +72,8 @@ data class FastaRecord(val id: String, val description: String? = null, val sequ
 
         return ">" + (id + " " + (description ?: "")).trim() + "\n" + wrappedSeq
     }
+
+    override fun toString(): String = toEntryString()
 }
 
 class FastaRecordSerializer(val lineLength: Int = 100) : ItemSerializer<FastaRecord> {

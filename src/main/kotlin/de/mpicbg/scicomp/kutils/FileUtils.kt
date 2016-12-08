@@ -1,27 +1,30 @@
 package de.mpicbg.scicomp.kutils
 
-import java.io.File
-import java.io.PrintWriter
+import java.io.*
+import java.util.zip.GZIPOutputStream
 
 
 operator fun File.div(childName: String): File {
     return this.resolve(childName)
 }
 
-fun File.changeExt(old: String, new: String): File {
-    val destName = File(this.absolutePath + new)
-    this.renameTo(destName)
-    return destName
-}
 
-fun <T> Iterable<T>.saveAs(f: File, overwrite: Boolean = true, transform: (T) -> String = { it.toString() }) {
-    if (f.isFile && !overwrite) {
-        throw IllegalArgumentException("$f is present already")
-    }
+//https://dzone.com/articles/readingwriting-compressed-and
+/** Save a list of items into a file. Output can be option ally zipped and a the stringifying operation can be changed from toString to custom operation if needed. */
+fun <T> Iterable<T>.saveAs(f: File,
+                           transform: (T) -> String = { it.toString() },
+                           separator: Char = '\n',
+                           overwrite: Boolean = true,
+                           compress: Boolean = f.name.let { it.endsWith(".zip") || it.endsWith(".gz") }) {
 
-    val p = PrintWriter(f)
-    toList().forEach { p.write(transform(it) + "\n") }
+    require(f.isFile && !overwrite) { "$f is present already" }
+
+    val p = if (!compress) PrintWriter(f) else BufferedWriter(OutputStreamWriter(GZIPOutputStream(FileOutputStream(f))))
+
+    toList().forEach { p.write(transform(it) + separator) }
 
     p.close()
 }
+
+
 

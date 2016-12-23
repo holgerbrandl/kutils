@@ -27,6 +27,22 @@ internal class BatchingSequence<T>(val source: Iterable<T>, val batchSize: Int) 
     }
 }
 
+// alternative batch implementation;
+// see https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md
+// also see http://stackoverflow.com/questions/34498368/kotlin-convert-large-list-to-sublist-of-set-partition-size/41301362#41301362
+//{
+//    fun <T> Iterable<T>.batch(chunkSize: Int) =
+//            mapIndexed { i, item -> i to item }.// create index value pairs
+//                    groupBy { it.first / chunkSize }.// create grouping index
+//                    map { it.value.map { it.second } }   // split into different partitions
+//
+//
+//    val items = (1..100).map { "foo_${it}" }
+//
+//    items.batch(3)
+//}
+
+
 
 /** Buffered iterators are iterators which provide a method `head`
  *  that inspects the next element without discarding it.

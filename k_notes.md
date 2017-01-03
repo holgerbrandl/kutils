@@ -1,2 +1,0 @@
-See https://dzone.com/articles/a-peculiar-but-possibly-cunning-kotlin-language-fe?utm_medium=feed&utm_source=feedpress.me&utm_campaign=Feed:%20dzone%2Fjava
-> Inutively we would aassume lambda / closure would produce its own stack frame. But it really doesn’t. The reason for this is the inline modifier on the synchronized function. Without inline it would create a frame

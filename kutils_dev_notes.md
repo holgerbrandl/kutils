@@ -4,7 +4,7 @@
 2. push and create github release tag
 3. 
 ```
-grade install
+gradle install
 ```
 4. create new version on jcenter
 

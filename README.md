@@ -6,7 +6,7 @@
 
 To use them add
 ```
-compile 'de.mpicbg.scicomp:kutils:0.5'
+compile 'de.mpicbg.scicomp:kutils:0.6'
 ```
 to your dependencies.
 
@@ -31,7 +31,8 @@ Most examples rely on [kscript](https://github.com/holgerbrandl/kscript) for she
 Filter a fasta file with a provided set of ids:
 ```bash
 kscript - id.lst some.fasta <<"EOF"
-// DEPS de.mpicbg.scicomp:kutils:0.5
+// DEPS de.mpicbg.scicomp:kutils:0.6
+
 import de.mpicbg.scicomp.bioinfo.openFasta
 import java.io.File
 

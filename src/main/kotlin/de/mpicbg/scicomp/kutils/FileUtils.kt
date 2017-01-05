@@ -17,7 +17,8 @@ fun <T> Iterable<T>.saveAs(f: File,
                            overwrite: Boolean = true,
                            compress: Boolean = f.name.let { it.endsWith(".zip") || it.endsWith(".gz") }) {
 
-    require(f.isFile && !overwrite) { "$f is present already" }
+    // ensure that file is not yet there or overwrite flag is set
+    require(!f.isFile || overwrite) { "$f is present already" }
 
     val p = if (!compress) PrintWriter(f) else BufferedWriter(OutputStreamWriter(GZIPOutputStream(FileOutputStream(f))))
 

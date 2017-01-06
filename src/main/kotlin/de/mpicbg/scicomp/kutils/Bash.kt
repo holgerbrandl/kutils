@@ -46,7 +46,7 @@ internal class StreamGobbler(var inStream: InputStream, val printStream: PrintSt
         try {
             val isr = InputStreamReader(inStream)
             val br = BufferedReader(isr)
-            for (line in br.lines()) {
+            for (line in br.linesJ7()) {
                 sb.append(line!! + "\n")
                 printStream?.println(line)
             }
@@ -58,6 +58,9 @@ internal class StreamGobbler(var inStream: InputStream, val printStream: PrintSt
 
     val output: String get() = sb.toString()
 }
+
+// workaround missing lines() function in java7
+private fun BufferedReader.linesJ7(): Iterable<String> = lineSequence().toList()
 
 
 object ShellUtils {

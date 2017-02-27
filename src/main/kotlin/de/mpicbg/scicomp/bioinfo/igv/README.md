@@ -16,11 +16,33 @@ curl -L -o ~/bin/kscript https://git.io/vaoNi && chmod u+x ~/bin/kscript
 ```
 
 
-Basic example assuming that you have some bams and beds to build the session from, which creates a session file called `test_session.igv.xml`
+## Run as a tool
+
+Simply run [it](https://github.com/holgerbrandl/kutils/blob/master/src/main/kotlin/de/mpicbg/scicomp/bioinfo/igv/make_igv_session.kts) from the web
+
+```bash
+bamFiles="foo.bam /some/where/bar.bam"
+genome="mm10"
+
+alias make_igv_session="kscript https://git.io/vyLlj"
+make_igv_session ${genome} ${bamFiles}  
+```
+
+Without any arguments a basic help will be shown:
+```
+$ make_igv_session
+Usage: make_igv_session <genome_id_or_fasta> [<bam_file>]* ]
+```
+
+When providing argument the session-xml will be printed to `stdout`
+
+## Extended scripting usage
+
+A first example assuming that you have some bams and beds to build the session from, which creates a session file called `test_session.igv.xml`
 
 ```bash
 kscript - <<"EOF" > test_session.igv.xml
-//DEPS de.mpicbg.scicomp:kutils:0.2-SNAPSHOT
+//DEPS de.mpicbg.scicomp:kutils:0.6.1
 
 import de.mpicbg.scicomp.bioinfo.igv.*
 
@@ -43,14 +65,14 @@ Another example that incoporates an existing list of bam files stored in a bash 
 bamFiles="foo.bam /some/where/bar.bam"
 genome="mm10"
 
-kscript - <<EOF > tee another_session.igv.xml
-//DEPS de.mpicbg.scicomp:kutils:0.2-SNAPSHOT
+kscript ${genome} ${bamFiles} - <<EOF > tee another_session.igv.xml
+//DEPS de.mpicbg.scicomp:kutils:0.6.1
 
 import de.mpicbg.scicomp.bioinfo.igv.*
 import java.io.File
 
-val genome = "$genome"
-val tracks = guessTracks("$bamFiles".split(" ").map{ File(it) })
+val genome = args.first()
+val tracks = guessTracks(args.drop(1).map{ File(it) })
 
 println(builSession(genome, tracks))
 EOF

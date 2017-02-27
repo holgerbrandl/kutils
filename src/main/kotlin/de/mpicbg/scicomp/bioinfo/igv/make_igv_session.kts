@@ -1,29 +1,31 @@
 #!/usr/bin/env kscript
 
-package de.mpicbg.scicomp.bioinfo.igv
+//DEPS de.mpicbg.scicomp:kutils:0.6.1
 
+import de.mpicbg.scicomp.bioinfo.igv.builSession
+import de.mpicbg.scicomp.bioinfo.igv.guessTracks
 import java.io.File
-
+import kotlin.system.exitProcess
 
 /**
  * Programmatically create an IGV session file.
  */
 
+if (args.isEmpty()) {
+    System.err.println("Usage: make_igv_session <genome_id_or_fasta> [<bam_file>]* ]")
+    exitProcess(1)
+}
 
-// cd /Volumes/RADseq-planarian/radseq/dd_Smes_g2_mapping; export PATH=/Users/brandl/IdeaProjects/kotlin_playground/src:${PATH}
-// chmod +x make_igv_session.kts
-// make_igv_session.kts
+// Example
+//val args = arrayOf("hg19", "/some/where/N.bam", "/some/where/aRG.bam", "/some/where/bRG.bam")
 
-// configure properties of igv session
-val genome = "/Volumes/RADseq-planarian/radseq/dd_Smes_g2_mapping/genome/dd_Smes_g2.fasta" // can also be valid identifier like mm10
 
-//val tracks = listOf(BamTrack("SP37.bam"), BamTrack("SP90.bam"), BedTrack("uniq_var_sites_SP37.bed"), BedTrack("uniq_var_sites_SP90.bed"), BigWigTrack("SP37.bw"), BigWigTrack("SP90.bw"))
-val tracks = guessTracks("my.bam your.bed".split(" ").map { File(it) })
+val genome = args.first()
+val tracks = guessTracks(args.drop(1).map { File(it) })
 
 // rather print to stdut to allow easy post-processing
 builSession(genome, tracks).let { println(it) }
 
 
-// test run
 // /Users/brandl/IdeaProjects/kotlin_playground/src/make_igv_session.kts/make_igv_session.kts
 

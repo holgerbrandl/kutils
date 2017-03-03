@@ -34,9 +34,9 @@ fun String.processLines(trafo: (String) -> String) {
 }
 
 
-public inline fun checkArgs(value: Boolean, lazyMessage: () -> Any): Unit {
+public inline fun stopIfNot(value: Boolean, lazyMessage: () -> Any): Unit {
     if (!value) {
-        System.err.println(lazyMessage().toString())
+        System.err.println("ERROR: " + lazyMessage().toString())
         exitProcess(1)
     }
 }

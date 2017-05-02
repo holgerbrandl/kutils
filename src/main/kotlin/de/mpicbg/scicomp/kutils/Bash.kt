@@ -1,6 +1,7 @@
 package de.mpicbg.scicomp.kutils
 
 import java.io.*
+import kotlin.system.exitProcess
 
 
 data class BashResult(val exitCode: Int, val stdout: Iterable<String>, val stderr: Iterable<String>) {
@@ -84,6 +85,13 @@ object ShellUtils {
     }
 }
 
+
+public inline fun stopIfNot(value: Boolean, lazyMessage: () -> Any) {
+    if (!value) {
+        System.err.println("[ERROR] " + lazyMessage().toString())
+        exitProcess(1)
+    }
+}
 
 fun main(args: Array<String>) {
     //    println("test")

@@ -6,7 +6,7 @@ package de.mpicbg.scicomp.bioinfo.igv
  */
 
 
-import de.mpicbg.scicomp.kscript.stopIfNot
+import de.mpicbg.scicomp.kutils.stopIfNot
 import java.io.File
 
 // todo optionally call igvtools to build appropriate indicies

@@ -6,7 +6,7 @@
 
 To use them add
 ```
-compile 'de.mpicbg.scicomp:kutils:0.6'
+compile 'de.mpicbg.scicomp:kutils:0.7'
 ```
 to your dependencies.
 
@@ -14,7 +14,6 @@ to your dependencies.
 
 ## What's included?
 
-* Utilities for [kscript](https://github.com/holgerbrandl/kscript)
 * Fasta and Fastq API (read, write, iterators)
 * [Parallel collections](src/main/kotlin/de/mpicbg/scicomp/kutils/ParCollections.kt) API
 * Bash integration [utilities](src/main/kotlin/de/mpicbg/scicomp/kutils/Bash.kt)
@@ -31,7 +30,7 @@ Most examples rely on [kscript](https://github.com/holgerbrandl/kscript) for she
 Filter a fasta file with a provided set of ids:
 ```bash
 kscript - id.lst some.fasta <<"EOF"
-// DEPS de.mpicbg.scicomp:kutils:0.6
+// DEPS de.mpicbg.scicomp:kutils:0.7
 
 import de.mpicbg.scicomp.bioinfo.openFasta
 import java.io.File
@@ -44,3 +43,8 @@ openFasta(args[1]).
 EOF
 
 ```
+
+
+## See also
+
+* https://github.com/holgerbrandl/kscript-support-api

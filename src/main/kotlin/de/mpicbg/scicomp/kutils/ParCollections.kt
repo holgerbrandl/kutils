@@ -1,6 +1,7 @@
 package de.mpicbg.scicomp.kutils
 
 import java.util.*
+import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -16,21 +17,20 @@ class ParCol<T>(val it: Iterable<T>, val executorService: ExecutorService) : Ite
 
 
 /** Convert a stream into a parallel collection. */
-fun <T> Iterable<T>.par(numThreads: Int = Runtime.getRuntime().availableProcessors() - 2,
+fun <T> Iterable<T>.par(numThreads: Int = maxOf(Runtime.getRuntime().availableProcessors() - 2, 1),
                         executorService: ExecutorService = Executors.newFixedThreadPool(numThreads)): ParCol<T> {
-    return ParCol(this, executorService);
+    return ParCol(this, executorService)
 }
 
 
 /** De-parallelize a collection. Undos <code>par</code> */
 fun <T> ParCol<T>.unpar(): Iterable<T> {
-    return this.it;
+    return this.it
 }
 
 
 fun <T, R> ParCol<T>.map(transform: (T) -> R): ParCol<R> {
-    // note default size is just an inlined version of kotlin.collections.collectionSizeOrDefault
-    val destination = ArrayList<R>(if (this is Collection<*>) this.size else 10)
+    val destination = ConcurrentLinkedQueue<R>()
 
     // http://stackoverflow.com/questions/3269445/executorservice-how-to-wait-for-all-tasks-to-finish
     // use futures here to allow for recycling of the executorservice
@@ -49,7 +49,7 @@ fun <T, R> ParCol<T>.map(transform: (T) -> R): ParCol<R> {
  * @param exec The executor. By exposing this as a parameter, application can share an executor among different parallel
  *             mapping taks.
  */
-fun <T, R> Iterable<T>.parmap(numThreads: Int = Runtime.getRuntime().availableProcessors() - 2,
+fun <T, R> Iterable<T>.parmap(numThreads: Int = maxOf(Runtime.getRuntime().availableProcessors() - 2, 1),
                               exec: ExecutorService = Executors.newFixedThreadPool(numThreads),
                               transform: (T) -> R): Iterable<R> {
     return this.par(executorService = exec).map(transform).unpar()
@@ -57,7 +57,7 @@ fun <T, R> Iterable<T>.parmap(numThreads: Int = Runtime.getRuntime().availablePr
 
 
 @Deprecated("use parmap() instead")
-fun <T, R> Iterable<T>.pmap(numThreads: Int = Runtime.getRuntime().availableProcessors() - 2, exec: ExecutorService = Executors.newFixedThreadPool(numThreads), transform: (T) -> R): List<R> {
+fun <T, R> Iterable<T>.pmap(numThreads: Int = maxOf(Runtime.getRuntime().availableProcessors() - 2, 1), exec: ExecutorService = Executors.newFixedThreadPool(numThreads), transform: (T) -> R): List<R> {
     // note default size is just an inlined version of kotlin.collections.collectionSizeOrDefault
     val defaultSize = if (this is Collection<*>) this.size else 10
     val destination = Collections.synchronizedList(ArrayList<R>(defaultSize))

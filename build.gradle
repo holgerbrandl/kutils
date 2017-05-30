@@ -31,6 +31,16 @@ dependencies {
     testRuntime "io.kotlintest:kotlintest:1.3.2"
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main'
+        }
+        kotlin {
+            exclude '**/*.kts' // gradle will otherwise try to compile them
+        }
+    }
+}
 
 // http://stackoverflow.com/questions/11474729/how-to-build-sources-jar-with-gradle
 task sourcesJar(type: Jar, dependsOn: classes) {

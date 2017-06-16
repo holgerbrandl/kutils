@@ -54,6 +54,8 @@ class ToStringSerializer<T> : ItemSerializer<T> {
     }
 }
 
+
+// todo use native stdlib methods once ready (see https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/window-sliding.md#description)
 /** Inspired by http://stackoverflow.com/questions/7459174/split-list-into-multiple-lists-with-fixed-number-of-elements. */
 fun <T> Iterable<T>.createChunks(chunkSize: Int, namer: ChunkNamer = SimpleChunkNamer(), serializer: ItemSerializer<T> = ToStringSerializer()): Sequence<File> {
 

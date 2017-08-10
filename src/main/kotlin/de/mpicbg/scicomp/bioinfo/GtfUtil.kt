@@ -33,7 +33,7 @@ data class GtfRecord(val seqname: String, val source: String, val feature: Strin
 
 
 //fun readGTF(file: File): Sequence<GtfRecord> = file.readLines().map{ line->
-fun readGTF(file: File): Sequence<GtfRecord> = BufferedReader(FileReader(file)).lineSequence().map { line ->
+fun readGTF(file: File): Sequence<GtfRecord> = BufferedReader(FileReader(file)).lineSequence().filterNot { it.startsWith("#") }.map { line ->
     val splitLine = line.split("\t")
 
     val attributeStrings = splitLine[8].split(";").map { it.trim() }.filter { it.isNotBlank() }

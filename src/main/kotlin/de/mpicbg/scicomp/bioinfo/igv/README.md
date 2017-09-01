@@ -4,15 +4,13 @@ IGV Session File Generator
 
 Generate igv session files using [kscript](https://github.com/holgerbrandl/kscript) and a little [support API](IgvSessionGen.kt) written in [Kotlin](https://kotlinlang.org/)
 
-To get started setup kscript and kotlin
+To get started, setup `kotlin` and `kscript`
 
 ```bash
 ## install kotlin via sdkman http://sdkman.io/
 curl -s get.sdkman.io | bash
 sdk install kotlin
-
-## install kscript
-curl -L -o ~/bin/kscript https://git.io/vaoNi && chmod u+x ~/bin/kscript
+sdk install kscript
 ```
 
 
@@ -67,7 +65,7 @@ bamFiles="foo.bam /some/where/bar.bam"
 genome="mm10"
 
 kscript ${genome} ${bamFiles} - <<EOF > tee another_session.igv.xml
-//DEPS de.mpicbg.scicomp:kutils:0.6.1
+//DEPS de.mpicbg.scicomp:kutils:0.8.3
 
 import de.mpicbg.scicomp.bioinfo.igv.*
 import java.io.File

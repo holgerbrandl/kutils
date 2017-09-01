@@ -30,6 +30,9 @@ data class BedEntry(val chromsome: String, val start: Long, val end: Long, // be
 
 
     override fun toString(): String {
-        return listOf(chromsome, start, end, name ?: ".", score ?: ".", strand, thickStart, thickEnd, itemRgb, blockCount, blockSizes, blockStarts, otherProperties).filterNotNull().joinToString("\t")
+        val props = listOf(chromsome, start, end, name ?: ".", score ?: ".", strand, thickStart,
+                thickEnd, itemRgb, blockCount, blockSizes, blockStarts) + otherProperties
+
+        return props.filterNotNull().joinToString("\t")
     }
 }

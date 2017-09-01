@@ -14,6 +14,8 @@ plugins { id "com.jfrog.bintray" version "1.2" }
 apply plugin: 'kotlin'
 apply plugin: 'application'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
 
 //mainClassName = 'demo.HelloWorldKt'
 mainClassName = "de.mpicbg.scicomp.kutils.BashKt" // not needed but does not work without
@@ -51,29 +53,90 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 artifacts {
     archives sourcesJar
+    archives javadocJar
 }
 
-// cd /Users/brandl/Dropbox/cluster_sync/scalautils && sbt publish
-// cd /Users/brandl/Dropbox/cluster_sync/joblist && sbt publish
-// cd ~/mnt/mack/bioinfo/holger/misc/Dropbox/cluster_sync/scalautils && sbt publish
-// cd ~/mnt/mack/bioinfo/holger/misc/Dropbox/cluster_sync/joblist && sbt publish
-// cd ~ &&  git clone https://github.com/holgerbrandl/kutils.git && cd kutils && gradle install
-
-// https://docs.gradle.org/current/userguide/maven_plugin.html
-uploadArchives {
-    repositories {
-        mavenDeployer {
-//            pom.groupId = 'de.mpicbg.scicomp'
-//            pom.version = '0.1-SNAPSHOT'
-            pom.artifactId = 'kutils'
-
-            repository(url: "file://localhost/tmp/myRepo/")
-        }
-    }
-}
 
 //http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
 group = 'de.mpicbg.scicomp'
 version = '0.8'
+
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar { classifier "sources" }
+
+            // just needed because artifact name differs from projet name
+            version = project.version
+//            artifactId = 'kutils'
+            groupId = project.group
+        }
+    }
+}
+
+
+// does not seem necessary
+// https://docs.gradle.org/current/userguide/maven_plugin.html
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+////            pom.groupId = 'de.mpicbg.scicomp'
+////            pom.version = '0.1-SNAPSHOT'
+//            pom.artifactId = 'kutils'
+//
+//            repository(url: "file://localhost/tmp/myRepo/")
+//        }
+//    }
+//}
+
+
+install {
+    repositories.mavenInstaller {
+        pom.version = project.version
+        pom.artifactId = 'kutils'
+        pom.groupId = project.group
+    }
+}
+
+
+if (hasProperty('bintray_user') && hasProperty('bintray_key')) {
+    bintray {
+
+        // property must be set in ~/.gradle/gradle.properties
+        user = bintray_user
+        key = bintray_key
+
+        publications = ['maven'] //When uploading configuration files
+
+        dryRun = false //Whether to run this as dry-run, without deploying
+        publish = true // If version should be auto published after an upload
+
+        pkg {
+            repo = 'mpicbg-scicomp'
+            name = 'kutils'
+            vcsUrl = 'https://github.com/holgerbrandl/kutils'
+
+            licenses = ['MIT']
+            publicDownloadNumbers = true
+
+            //Optional version descriptor
+            version {
+                name = project.version //Bintray logical version name
+                desc = '.'
+                released = new java.util.Date()
+                vcsTag = 'v' + project.version
+            }
+        }
+    }
+}
+

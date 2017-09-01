@@ -19,6 +19,8 @@ echo "new version is $kutils_version"
 cd ${KUTILS_HOME}
 
 gradle install
+# careful with this one!
+#gradle bintrayUpload
 
 
 ########################################################################

@@ -37,7 +37,7 @@ fun readGTF(file: File): Sequence<GtfRecord> = BufferedReader(FileReader(file)).
     val splitLine = line.split("\t")
 
     val attributeStrings = splitLine[8].split(";").map { it.trim() }.filter { it.isNotBlank() }
-    val attributes = attributeStrings.map { keyVal -> keyVal.split(" ", limit = 2).let { it[0] to it[1].trimEnd('\"').trimStart('\"') } }.toMap()
+    val attributes = attributeStrings.map { keyVal -> keyVal.split(" ", "=", limit = 2).let { it[0] to it[1].trimEnd('\"').trimStart('\"') } }.toMap()
 
     splitLine.run { GtfRecord(this[0], this[1], this[2], this[3].toLong(), this[4].toLong(), this[5], this[6], this[7], attributes) }
 }

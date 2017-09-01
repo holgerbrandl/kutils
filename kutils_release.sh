@@ -41,6 +41,7 @@ cd ${KUTILS_HOME}
 git push --tags
 
 # check the current tags and existing releases of the repo
+# binaries are located under $GOPATH/bin
 github-release info -u holgerbrandl -r kutils
 
 # create a formal release
@@ -50,16 +51,4 @@ github-release release \
     --tag "v${kutils_version}" \
     --name "v${kutils_version}" \
     --description "See [NEWS.md](https://github.com/holgerbrandl/kutils/blob/master/NEWS.md) for changes." 
-#    \
 #    --pre-release
-
-
-## upload sdk-man binary set
-github-release upload \
-    --user holgerbrandl \
-    --repo kutils \
-    --tag "v${kutils_version}" \
-    --name "kutils-${kutils_version}-bin.zip" \
-    --file ${kutils_ARCHIVE}/kutils-${kutils_version}.zip
-
-

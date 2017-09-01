@@ -39,6 +39,24 @@ class BamTrack(val bamFile: File, val isCollapsed: Boolean = true) : IGVTrack {
 }
 
 
+class SamTrack(val samFile: File, val isCollapsed: Boolean = true) : IGVTrack {
+
+    constructor(samFile: String) : this(File(samFile))
+
+    init {
+        stopIfNot(samFile.exists()) { "Track file '${samFile}' does not exist" }
+        stopIfNot(File(samFile.absolutePath + ".sai").exists()) { "index file is missing for ${samFile}" }
+    }
+
+
+    override fun getResourceFile(): File = samFile
+
+    override fun toTrackXML() = """        <Track altColor="0,0,178" autoScale="false" color="0,0,178" displayMode="COLLAPSED" featureVisibilityWindow="-1" fontSize="10" id="${samFile.absolutePath}" name="${samFile.name.removeSuffix(".bam")}" sortable="true" visible="true">
+            <RenderOptions colorByTag="" colorOption="READ_STRAND" flagUnmappedPairs="false" groupByTag="" maxInsertSize="1000" minInsertSize="50" shadeBasesOption="QUALITY" shadeCenters="true" showAllBases="false" sortByTag=""/>
+        </Track>"""
+}
+
+
 class VcfTrack(val vcfFile: File) : IGVTrack {
 
     constructor(vcfFile: String) : this(File(vcfFile))
@@ -132,6 +150,7 @@ fun guessTracks(trackFiles: List<File>) = trackFiles.map {
         it.name.endsWith(".bed") || it.name.endsWith(".bed.gz") -> BedTrack(it)
         it.name.endsWith(".vcf") || it.name.endsWith(".vcf.gz") -> VcfTrack(it)
         it.name.endsWith(".bam") -> BamTrack(it)
+        it.name.endsWith(".sam") -> SamTrack(it)
         it.name.endsWith(".bw") -> VcfTrack(it)
         else -> throw IllegalArgumentException("unsupported track type")
     }

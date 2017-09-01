@@ -1,6 +1,6 @@
 #!/usr/bin/env kscript
 
-//DEPS de.mpicbg.scicomp:kutils:0.8
+//DEPS de.mpicbg.scicomp:kutils:0.8.2
 
 import de.mpicbg.scicomp.bioinfo.igv.builSession
 import de.mpicbg.scicomp.bioinfo.igv.guessTracks
@@ -12,7 +12,7 @@ import kotlin.system.exitProcess
  */
 
 if (args.isEmpty()) {
-    System.err.println("Usage: make_igv_session <genome_id_or_fasta> [<bam_file>]* ]")
+    System.err.println("Usage: make_igv_session <genome_id_or_fasta> [<bam_sam_bed_file>]* ]")
     exitProcess(1)
 }
 

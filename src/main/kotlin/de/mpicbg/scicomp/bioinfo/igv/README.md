@@ -22,16 +22,17 @@ Simply run [it](https://github.com/holgerbrandl/kutils/blob/master/src/main/kotl
 
 ```bash
 bamFiles="foo.bam /some/where/bar.bam"
+bedFiles="/some/bed"
 genome="mm10"
 
 alias make_igv_session="kscript https://git.io/vyLlj"
-make_igv_session ${genome} ${bamFiles}  
+make_igv_session ${genome} ${bamFiles}  ${bedFiles}
 ```
 
 Without any arguments a basic help will be shown:
 ```
 $ make_igv_session
-Usage: make_igv_session <genome_id_or_fasta> [<bam_file>]* ]
+Usage: make_igv_session <genome_id_or_fasta> [<bam_sam_bed_file>]* ]
 ```
 
 When providing argument the session-xml will be printed to `stdout`
@@ -42,7 +43,7 @@ A first example assuming that you have some bams and beds to build the session f
 
 ```bash
 kscript - <<"EOF" > test_session.igv.xml
-//DEPS de.mpicbg.scicomp:kutils:0.6.1
+//DEPS de.mpicbg.scicomp:kutils:0.8.3
 
 import de.mpicbg.scicomp.bioinfo.igv.*
 

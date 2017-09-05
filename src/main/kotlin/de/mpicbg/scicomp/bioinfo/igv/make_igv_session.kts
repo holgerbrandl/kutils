@@ -12,7 +12,7 @@ import kotlin.system.exitProcess
  */
 
 if (args.isEmpty()) {
-    System.err.println("Usage: make_igv_session <genome_id_or_fasta> [<bam_sam_bed_file>]* ]")
+    System.err.println("Usage: make_igv_session <genome_id_or_fasta> [<bam_sam_bed_bw_vcf_gff)file>]* ]")
     exitProcess(1)
 }
 

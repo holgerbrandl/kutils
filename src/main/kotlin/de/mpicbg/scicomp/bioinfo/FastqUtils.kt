@@ -47,12 +47,13 @@ fun main(args: Array<String>) {
 fun openFastq(fastqFile: String): Iterable<FastqRecord> = openFastq(File(fastqFile))
 
 
+// todo add support for compressed files here
 fun openFastq(fastqFile: File): Iterable<FastqRecord> {
     return BufferedFastqReader(fastqFile).asSequence().asIterable()
 }
 
 
-fun writeFasta(fastaRecords: Iterable<FastqRecord>, outputFile: File) {
+fun writeFastq(fastaRecords: Iterable<FastqRecord>, outputFile: File) {
     fastaRecords.saveAs(outputFile, transform = { it.toEntryString() })
 }
 
@@ -60,7 +61,7 @@ fun writeFasta(fastaRecords: Iterable<FastqRecord>, outputFile: File) {
 // how to prevent that the iterator progresses when using it --> use iterable
 // http://stackoverflow.com/questions/19804928/scala-writing-string-iterator-to-file-in-efficient-way
 @Suppress("unused")
-fun Iterable<FastqRecord>.write(outputFile: File) = writeFasta(this, outputFile)
+fun Iterable<FastqRecord>.write(outputFile: File) = writeFastq(this, outputFile)
 
 
 fun Iterable<FastqRecord>.shuffle() = Collections.shuffle(this.toList())

@@ -20,7 +20,7 @@ if (args.isEmpty()) {
 //val args = arrayOf("hg19", "/some/where/N.bam", "/some/where/aRG.bam", "/some/where/bRG.bam")
 
 val genome = args.first()
-val trackFiles = args.drop(1).map { File(it) }
+val trackFiles = args.drop(1).map { File(it).absoluteFile.normalize() }
 
 // guess track types
 val tracks = guessTracks(trackFiles)

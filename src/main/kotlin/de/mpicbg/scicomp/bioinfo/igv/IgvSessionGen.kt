@@ -13,6 +13,7 @@ import java.io.File
 // todo move to dependency library for clarity
 // todo support genome file as input instead of fasta (see http://www.broadinstitute.org/igv/LoadGenome)
 // todo validate that session can be loaded at the end using programmatic interface of iGV
+// todo migrate to use https://github.com/redundent/kotlin-xml-builder
 
 // todo add option to build region set from existing bedfile to stream-line region navigation (or simply import bed file directly within IGV)
 
@@ -116,7 +117,8 @@ class GffTrack(val gffFile: File) : IGVTrack() {
 
     init {
         stopIfNot(gffFile.exists()) { "Track file '${gffFile}' does not exist" }
-        panel=Panel.Lower
+        panel = Panel.Lower
+        displayMode = DisplayMode.Expanded
     }
 
     override fun getResourceFile(): File = gffFile
@@ -129,6 +131,9 @@ class GffTrack(val gffFile: File) : IGVTrack() {
 }
 
 fun builSession(genome: String, tracks: List<IGVTrack>): String {
+
+    // auto-expand bed tracks
+    tracks.filter { it is BedTrack }.map { it.displayMode = DisplayMode.Expanded }
 
     val resourceXML = tracks.map { it.getResourceFile() }.map { """<Resource path="${it}"/>""" }.joinToString("\n")
 
@@ -145,7 +150,7 @@ fun builSession(genome: String, tracks: List<IGVTrack>): String {
 
     val providedGtfTrack = if (!isFastaGenome) """
         <Track altColor="0,0,178" autoScale="false" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178"
-               colorScale="ContinuousColorScale;0.0;308.0;255,255,255;0,0,178" displayMode="COLLAPSED"
+               colorScale="ContinuousColorScale;0.0;308.0;255,255,255;0,0,178" displayMode="EXPANDED"
                featureVisibilityWindow="-1" fontSize="10" height="35" id="${genome}_genes" name="RefSeq Genes"
                renderer="BASIC_FEATURE" sortable="false" visible="true" windowFunction="count">
             <DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="308.0" minimum="0.0" panel="LINEAR"/>

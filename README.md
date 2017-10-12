@@ -38,7 +38,7 @@ import java.io.File
 val filterIds = File(args[0]).readLines()
 
 openFasta(args[1]).
-        filter { !filterIds.contains(it) }.
+        filter { !filterIds.contains(it.id) }.
         forEach { print(it.toEntryString()) }
 EOF
 

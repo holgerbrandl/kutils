@@ -77,6 +77,9 @@ println(builSession(genome, tracks))
 EOF
 ```
 
+
+
+
 ToDo
 ----
 
@@ -87,3 +90,10 @@ Support
 -------
 
 Just submit tickets via the github tracker
+
+
+References
+----------
+
+[Docs describing CLI of IGV](https://software.broadinstitute.org/software/igv/startingIGV)
+

@@ -146,6 +146,11 @@ fun builSession(genome: String, tracks: List<IGVTrack>): String {
     val isFastaGenome = genome.endsWith(".fasta") || genome.endsWith(".fa")
     if (isFastaGenome) {
         stopIfNot(File(genome).exists()) { "genome '${genome}' does not exist " }
+    }else{
+        // we can not validate that the user has provided a valid species id, but we can catch most common suffix as errors
+        if(listOf("bam", "sam", "bed", "bcf", "vcf", "bw"). contains(File(genome).extension)){
+            error("genome '$genome' is malformatted or missing")
+        }
     }
 
     val providedGtfTrack = if (!isFastaGenome) """

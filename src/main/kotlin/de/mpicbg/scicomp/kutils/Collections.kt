@@ -1,16 +1,23 @@
 package de.mpicbg.scicomp.kutils
 
+import java.util.*
+
 /**
  * Collection utils that I missed or are missing in Kotlin's stdlib.
  * @author Holger Brandl
  */
 
 //see https://discuss.kotlinlang.org/t/sliding/120/3
+//todo seems to be part of kotlin 1.2
 fun <T> List<T>.sliding(windowSize: Int): List<List<T>> {
     return this.dropLast(windowSize - 1).mapIndexed { i, s -> this.subList(i, i + windowSize) }
 }
 
 fun <T> Sequence<T>.splitAt(n: Int) = this.toList().let { Pair(it.drop(it.size / 2), it.take(it.size / 2)) }
+
+
+fun Iterable<Any>.shuffle() = toList().apply { Collections.shuffle(this) }
+
 
 //see http://stackoverflow.com/questions/34498368/kotlin-convert-large-list-to-sublist-of-set-partition-size
 fun <T> Iterable<T>.batch(n: Int): Sequence<List<T>> {

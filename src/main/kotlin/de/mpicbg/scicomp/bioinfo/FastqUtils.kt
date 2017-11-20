@@ -64,9 +64,6 @@ fun writeFastq(fastaRecords: Iterable<FastqRecord>, outputFile: File) {
 fun Iterable<FastqRecord>.write(outputFile: File) = writeFastq(this, outputFile)
 
 
-fun Iterable<FastqRecord>.shuffle() = Collections.shuffle(this.toList())
-
-
 //    http://stackoverflow.com/questions/12105130/generating-a-frequency-map-for-a-string-in-scala
 fun Iterable<FastqRecord>.letterStats(): Map<Char, Int> {
     // fixme this is super-inefficent for larger files

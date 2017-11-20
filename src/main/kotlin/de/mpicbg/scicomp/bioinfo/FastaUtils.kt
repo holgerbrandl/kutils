@@ -33,9 +33,6 @@ fun Iterable<FastaRecord>.writeFasta(outputFile: File) = write(this, outputFile)
 fun Iterable<FastaRecord>.writeFasta(outputFile: String) = write(this, File(outputFile))
 
 
-fun Iterable<FastaRecord>.shuffle() = toList().apply { Collections.shuffle(this) }
-
-
 //    http://stackoverflow.com/questions/12105130/generating-a-frequency-map-for-a-string-in-scala
 fun Iterable<FastaRecord>.letterStats(): Map<Char, Int> {
     // fixme this is super-inefficent for larger files

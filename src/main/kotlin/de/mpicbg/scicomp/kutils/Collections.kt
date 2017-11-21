@@ -15,9 +15,11 @@ fun <T> List<T>.sliding(windowSize: Int): List<List<T>> {
 
 fun <T> Sequence<T>.splitAt(n: Int) = this.toList().let { Pair(it.drop(it.size / 2), it.take(it.size / 2)) }
 
+/** Reused random instance across all methods.*/
+var KUTILS_RANDOM = Random(123)
 
 //https://stackoverflow.com/questions/6284589/setting-a-seed-to-shuffle-arraylist-in-java-deterministically
-fun Iterable<Any>.shuffle(rnd:Random =Random()) = toList().apply { Collections.shuffle(this, rnd) }
+fun <T> Iterable<T>.shuffle(rnd:Random = KUTILS_RANDOM) = toList().apply { Collections.shuffle(this, rnd) }
 
 
 //see http://stackoverflow.com/questions/34498368/kotlin-convert-large-list-to-sublist-of-set-partition-size

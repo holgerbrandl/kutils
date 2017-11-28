@@ -1,6 +1,6 @@
 #!/usr/bin/env kscript
 
-@file:DependsOn("de.mpicbg.scicomp:kutils:0.9-SNAPSHOT")
+@file:DependsOn("de.mpicbg.scicomp:kutils:0.9.0")
 
 import de.mpicbg.scicomp.bioinfo.GtfRecord
 import de.mpicbg.scicomp.bioinfo.readBed6

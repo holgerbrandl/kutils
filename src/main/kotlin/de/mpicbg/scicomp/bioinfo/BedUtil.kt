@@ -1,5 +1,9 @@
 package de.mpicbg.scicomp.bioinfo
 
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
+
 /**
  * @author Holger Brandl
  */
@@ -11,6 +15,14 @@ fun String.toBed3(): BedEntry? {
     val splitLine = this.split("\t")
 
     return BedEntry(splitLine[0], splitLine[1].toLong(), splitLine[2].toLong(), otherProperties = splitLine.drop(3))
+}
+
+fun String.toBed6(): BedEntry? {
+    if (this.startsWith("#")) return null
+
+    val splitLine = this.split("\t")
+
+    return BedEntry(splitLine[0], splitLine[1].toLong(), splitLine[2].toLong(), splitLine[3],splitLine[4],splitLine[5], otherProperties = splitLine.drop(6))
 }
 
 // should go into dedicated library or even  use biojava types here
@@ -36,3 +48,14 @@ data class BedEntry(val chromsome: String, val start: Long, val end: Long, // be
         return props.filterNotNull().joinToString("\t")
     }
 }
+
+
+fun readBed3(file: File): Sequence<BedEntry> = BufferedReader(FileReader(file)).lineSequence()
+    .filterNot { it.startsWith("#") }
+    .map { it.toBed3() }
+    .filterNotNull()
+
+fun readBed6(file: File): Sequence<BedEntry> = BufferedReader(FileReader(file)).lineSequence()
+    .filterNot { it.startsWith("#") }
+    .map { it.toBed6() }
+    .filterNotNull()

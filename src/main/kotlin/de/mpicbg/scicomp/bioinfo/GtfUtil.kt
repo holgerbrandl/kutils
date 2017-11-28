@@ -22,7 +22,17 @@ For gtf specs see http://www.ensembl.org/info/website/upload/gff.html
 - frame - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..
 - attribute - attribute - A semicolon-separated list of tag-value pairs, providing additional information about each feature.
  */
-data class GtfRecord(val seqname: String, val source: String, val feature: String, val start: Long, val end: Long, val score: String, val strand: String, val frame: String, val attributes: Map<String, String>) {
+data class GtfRecord(
+    val seqname: String,
+    val source: String,
+    val feature: String,
+    val start: Long,
+    val end: Long,
+    val score: String = ".",
+    val strand: String=".",
+    val frame: String= ".",
+    val attributes: Map<String, String> = emptyMap()
+) {
 
 
     override fun toString(): String {

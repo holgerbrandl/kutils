@@ -97,3 +97,7 @@ References
 
 [Docs describing CLI of IGV](https://software.broadinstitute.org/software/igv/startingIGV)
 
+[Article about IGV Batch Screenshots](https://gist.github.com/dfjenkins3/5c6dc1e55e78fa17b931)
+
+
+

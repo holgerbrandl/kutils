@@ -19,7 +19,8 @@ fun <T> Sequence<T>.splitAt(n: Int) = this.toList().let { Pair(it.drop(it.size /
 var KUTILS_RANDOM = Random(123)
 
 //https://stackoverflow.com/questions/6284589/setting-a-seed-to-shuffle-arraylist-in-java-deterministically
-fun <T> Iterable<T>.shuffle(rnd:Random = KUTILS_RANDOM) = toList().apply { Collections.shuffle(this, rnd) }
+//fun <T> Iterable<T>.shuffle(rnd:Random = KUTILS_RANDOM) = toList().apply { Collections.shuffle(this, rnd) }
+// removed because part of kotlin stdlib now
 
 
 //see http://stackoverflow.com/questions/34498368/kotlin-convert-large-list-to-sublist-of-set-partition-size

@@ -58,11 +58,7 @@ data class BenchmarkResult<T>(val times: List<Long>, val config: T?) {
 fun main(args: Array<String>) {
 
 
-    val mb = MicroBenchmark<String>()
-
-    // set number of repetitions
-    mb.reps = 10
-
+    val mb = MicroBenchmark<String>(reps = 10)
 
     // run config a
     mb.elapseNano("config a") {

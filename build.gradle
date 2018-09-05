@@ -72,7 +72,7 @@ artifacts {
 
 //http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
 group = 'de.mpicbg.scicomp'
-version = '0.11'
+version = '0.12-SNAPSHOT'
 
 
 

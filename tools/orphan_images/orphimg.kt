@@ -37,7 +37,6 @@ fun main(args: Array<String>) {
         }
     }
 
-    println("Orphans are:")
     orphans.map { println(it) }
 
     if(args.autoRemove){

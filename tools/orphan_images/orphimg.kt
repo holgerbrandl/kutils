@@ -4,33 +4,40 @@
 @file:DependsOn("com.xenomachina:kotlin-argparser:2.0.7")
 
 import com.xenomachina.argparser.ArgParser
-import com.xenomachina.argparser.default
 import com.xenomachina.argparser.mainBody
 import java.io.File
 
 class MyArgs(parser: ArgParser) {
 
     val autoRemove by parser.flagging("-a", "--auto", help = "Automatically remove orphan images")
-    val imageDirectory by parser.positional("The directory which should be cleaned for orphan images")
+    val fileNameOnly by parser.flagging("-f", "--file-only", help = "Just take the last path element (aka file name) for usage search")
+    val recursive by parser.flagging("-r", "--recursive", help = "Recursively scan the target directory for image files")
+    val imageDirectory by parser.positional("DIRECTORY", "The directory which should be cleaned for orphan images")
 
-//    val test by parser.storing("-t", argName = "foo", help = "Automatically remove orphan images").default("lala")
-
-    val markdownFiles by parser.positionalList("Markdown files to be used as reference to detect orphaness")
+    val markdownFiles by parser.positionalList("MD-FILES", "Markdown files to be used as reference to detect orphaness")
 }
 
-fun main(args: Array<String>) {
-    val args = mainBody { ArgParser(args).parseInto(::MyArgs) }
+fun main(_args: Array<String>) {
+    val args = mainBody { ArgParser(_args).parseInto(::MyArgs) }
+
+    fun File.isImageFile() = listOf("jpg", "png").contains(extension)
 
     // see also https://stackoverflow.com/questions/2056221/recursively-list-files-in-java
     val imageDir = File(args.imageDirectory)
-    val imagesFiles = imageDir.listFiles { it -> listOf("jpg", "png").contains(it.extension) }
+
+    val imagesFiles = if (args.recursive) {
+        imageDir.walkTopDown().maxDepth(3).filter { it.isImageFile() }
+    } else {
+        imageDir.listFiles { it -> it.isImageFile() }.asSequence()
+    }
+
 
     // ingest all markdown files
     val mdContent = args.markdownFiles.flatMap { File(it).readLines() }
 
     // check for orphanness
     val orphans = imagesFiles.filter { imgFile ->
-        val query = imageDir.name + "/" + imgFile.name
+        val query = if (args.fileNameOnly) imgFile.name else imageDir.name + "/" + imgFile.name
 
         mdContent.none {
             it.contains(query)
@@ -45,3 +52,4 @@ fun main(args: Array<String>) {
         println("Done")
     }
 }
+

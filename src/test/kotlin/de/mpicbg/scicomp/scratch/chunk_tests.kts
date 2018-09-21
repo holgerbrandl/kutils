@@ -20,7 +20,7 @@ if (!inputFasta.isFile || inputFasta.length() == 0L) {
 println("shuffling '$fastaBaseName' for better load balance")
 val shuffledFasta = "$fastaBaseName.shuffled.fasta"
 
-openFasta(inputFasta).shuffle().writeFasta(File(shuffledFasta))
+openFasta(inputFasta).shuffled().writeFasta(File(shuffledFasta))
 
 // create chunks
 print("chunking '${inputFasta}' for better load balance")

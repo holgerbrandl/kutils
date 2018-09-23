@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.60'
+    ext.kotlin_version = '1.2.70'
     repositories {
         mavenCentral()
     }
@@ -24,7 +24,8 @@ defaultTasks 'run'
 
 repositories {
     mavenCentral()
-    mavenLocal()
+//    mavenLocal()
+    jcenter()
 }
 
 // https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_plugin_and_dependency_management

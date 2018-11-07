@@ -1,6 +1,6 @@
 #!/usr/bin/env kscript
 
-//DEPS de.mpicbg.scicomp:kutils:0.8.3
+//DEPS de.mpicbg.scicomp:kutils:0.11
 
 import de.mpicbg.scicomp.bioinfo.igv.builSession
 import de.mpicbg.scicomp.bioinfo.igv.guessTracks

@@ -164,7 +164,7 @@ fun builSession(genome: String, tracks: List<IGVTrack>): String {
 
     return """
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Session genome="${if (File(genome).exists()) File(genome).absolutePath else genome}" hasGeneTrack="${!isFastaGenome}" hasSequenceTrack="true" path="/Volumes/RADseq-planarian/radseq/schMedP1_mapping/igv_session_ratio_difference.xml" version="8">
+<Session genome="${if (File(genome).exists()) File(genome).absolutePath else genome}" hasGeneTrack="${!isFastaGenome}" hasSequenceTrack="true" path="${File(".").absolutePath}${File.pathSeparatorChar}igv_session.xml" version="8">
     <Resources>
        ${resourceXML}
     </Resources>

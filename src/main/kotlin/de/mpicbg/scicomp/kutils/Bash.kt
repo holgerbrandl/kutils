@@ -11,8 +11,7 @@ data class BashResult(val exitCode: Int, val stdout: Iterable<String>, val stder
 }
 
 
-fun evalBash(cmd: String, showOutput: Boolean = false,
-             redirectStdout: File? = null, redirectStderr: File? = null, wd: File? = null): BashResult {
+fun evalBash(cmd: String, showOutput: Boolean = false, wd: File? = null): BashResult {
 
     try {
 
@@ -20,12 +19,15 @@ fun evalBash(cmd: String, showOutput: Boolean = false,
         val cmd = (if (wd != null) "cd '${wd.absolutePath}'\n" else "") + cmd
 
 
-        var pb = ProcessBuilder("/bin/bash", "-c", cmd) //.inheritIO();
+        var pb = ProcessBuilder("/bin/bash", "-c", cmd)
+        if (showOutput) {
+            pb.inheritIO()
+        }        
         pb.directory(File("."));
         var p = pb.start();
 
-        val outputGobbler = StreamGobbler(p.getInputStream(), if (showOutput) System.out else null)
-        val errorGobbler = StreamGobbler(p.getErrorStream(), if (showOutput) System.err else null)
+        val outputGobbler = StreamGobbler(p.getInputStream())
+        val errorGobbler = StreamGobbler(p.getErrorStream())
 
         // kick them off
         errorGobbler.start()
@@ -40,7 +42,7 @@ fun evalBash(cmd: String, showOutput: Boolean = false,
 }
 
 
-internal class StreamGobbler(var inStream: InputStream, val printStream: PrintStream?) : Thread() {
+internal class StreamGobbler(var inStream: InputStream) : Thread() {
     var sb = StringBuilder()
 
     override fun run() {
@@ -49,7 +51,6 @@ internal class StreamGobbler(var inStream: InputStream, val printStream: PrintSt
             val br = BufferedReader(isr)
             for (line in br.linesJ7()) {
                 sb.append(line!! + "\n")
-                printStream?.println(line)
             }
         } catch (ioe: IOException) {
             ioe.printStackTrace()

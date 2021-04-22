@@ -7,7 +7,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.nio.file.Files
-import java.util.*
 import java.util.zip.GZIPInputStream
 
 class FastaReadException(string: String) : Exception(string)

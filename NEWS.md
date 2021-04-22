@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.12
+
+Rereleased to maven-central
+
 ## 0.11
 
 * Added `MicroBenchmark` for basic profiling

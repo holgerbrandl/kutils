@@ -1,22 +1,19 @@
 package de.mpicbg.scicomp.bioinfo
 
-/**
- * @author Holger Brandl
- */
-import io.kotlintest.matchers.*
-import io.kotlintest.specs.StringSpec
+import io.kotest.matchers.shouldBe
+import org.junit.Test
 import java.io.File
 
 
-class GtfParserTest : StringSpec() { init {
-
+class GtfParserTest {
 
     val testResourceDir = File("/Users/brandl/projects/kotlin/kutils/src/main/resources/bioinfo/")
 
-    "parse gtf with header" {
+    @Test
+    fun `parse gtf with header`() {
         val readGTF = readGTF(File(testResourceDir, "header.gtf")).toList()
 
-        readGTF.size shouldEqual 4
+        readGTF.size shouldBe 4
     }
 }
 
@@ -39,4 +36,3 @@ class GtfParserTest : StringSpec() { init {
     //        resolveArgFile(arrayOf("src/test/resources/flights.tsv.gz")).
     //                drop(1).first() should startWith("2013")
     //    }
-}

@@ -4,7 +4,6 @@ import de.mpicbg.scicomp.kutils.buffered
 import de.mpicbg.scicomp.kutils.saveAs
 import java.io.File
 import java.nio.file.Files
-import java.util.*
 
 /**
  * Fasta Utilities: Reading, writing and chunking of fasta-files

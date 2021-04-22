@@ -1,16 +1,16 @@
 # kutils - A collection of kotlin utilities
 
-[ ![Download](https://api.bintray.com/packages/holgerbrandl/mpicbg-scicomp/kutils/images/download.svg) ](https://bintray.com/holgerbrandl/mpicbg-scicomp/kutils/_latestVersion)
+[ ![Download](https://img.shields.io/badge/Maven%20Central-0.12-orange) ](https://mvnrepository.com/artifact/com.github.holgerbrandl/kutils)  [![Build Status](https://github.com/holgerbrandl/krangl/workflows/build/badge.svg)](https://github.com/holgerbrandl/kutils/actions?query=workflow%3Abuild)
 
 ## Installation
 
-To use them add
-```
-compile 'de.mpicbg.scicomp:kutils:0.11'
-```
-to your dependencies.
+To use the library, simply add
 
+```
+compile 'de.mpicbg.scicomp:kutils:0.12'
+```
 
+to the dependencies in your gradle-file.
 
 ## What's included?
 

@@ -7,7 +7,7 @@
 To use the library, simply add
 
 ```
-compile 'de.mpicbg.scicomp:kutils:0.12'
+compile 'com.github.holgerbrandl:kutils:0.12'
 ```
 
 to the dependencies in your gradle-file.
@@ -30,7 +30,7 @@ Most examples rely on [kscript](https://github.com/holgerbrandl/kscript) for she
 Filter a fasta file with a provided set of ids:
 ```bash
 kscript - id.lst some.fasta <<"EOF"
-// DEPS de.mpicbg.scicomp:kutils:0.7
+// DEPS com.github.holgerbrandl:kutils:0.7
 
 import de.mpicbg.scicomp.bioinfo.openFasta
 import java.io.File

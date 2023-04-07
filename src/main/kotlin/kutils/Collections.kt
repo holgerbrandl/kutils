@@ -1,26 +1,12 @@
-package de.mpicbg.scicomp.kutils
+package kutils
 
 import java.util.*
 
 /**
  * Collection utils that I missed or are missing in Kotlin's stdlib.
+ *
  * @author Holger Brandl
  */
-
-//see https://discuss.kotlinlang.org/t/sliding/120/3
-//todo seems to be part of kotlin 1.2
-fun <T> List<T>.sliding(windowSize: Int): List<List<T>> {
-    return this.dropLast(windowSize - 1).mapIndexed { i, s -> this.subList(i, i + windowSize) }
-}
-
-fun <T> Sequence<T>.splitAt(n: Int) = this.toList().let { Pair(it.drop(it.size / 2), it.take(it.size / 2)) }
-
-/** Reused random instance across all methods.*/
-var KUTILS_RANDOM = Random(123)
-
-//https://stackoverflow.com/questions/6284589/setting-a-seed-to-shuffle-arraylist-in-java-deterministically
-//fun <T> Iterable<T>.shuffle(rnd:Random = KUTILS_RANDOM) = toList().apply { Collections.shuffle(this, rnd) }
-// removed because part of kotlin stdlib now
 
 
 //see http://stackoverflow.com/questions/34498368/kotlin-convert-large-list-to-sublist-of-set-partition-size
@@ -59,7 +45,7 @@ internal class BatchingSequence<T>(val source: Iterable<T>, val batchSize: Int) 
  *  that inspects the next element without discarding it.
  *
  *  This method is a simple conversion from scala's collection API
- *  @see [[scala.collection.BufferedIterator]]
+ *  scala.collection.BufferedIterator
  */
 class BufferedIterator<A>(val wrappedIt: Iterator<A>) {
 
@@ -91,4 +77,4 @@ class BufferedIterator<A>(val wrappedIt: Iterator<A>) {
  *
  *  @return  a buffered iterator producing the same values as this iterator.
  */
-fun <A> Iterator<A>.buffered() = BufferedIterator<A>(this)
+fun <A> Iterator<A>.buffered() = BufferedIterator(this)

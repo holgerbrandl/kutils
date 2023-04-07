@@ -1,5 +1,14 @@
 # Release Notes
 
+## 1.0
+
+* Removed all bioinfo utils
+* Add `captureOutput()` and `suppressOutput()`
+* Cleaned up API
+* Modernized build and dependencies
+* Changed github namespace to `com.github.holgerbrandl`
+* Changed package to `kutils` 
+
 ## 0.12
 
 Rereleased to maven-central

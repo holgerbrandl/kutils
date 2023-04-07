@@ -1,11 +1,10 @@
-package de.mpicbg.scicomp.kutils
+package kutils
 
 /**
  * @author Holger Brandl
  */
 
 class MicroBenchmark<T>(var reps:Int = 25, var warmupReps:Int = 10) {
-
 
     val results = emptyList<BenchmarkResult<T>>().toMutableList()
 

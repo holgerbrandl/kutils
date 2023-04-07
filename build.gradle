@@ -1,70 +1,35 @@
-//file:noinspection DifferentKotlinGradleVersion
-buildscript {
-    ext.kotlin_version = '1.4.32'
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-
 plugins {
-    id "java-library"
-//    id "application"
+    id "org.jetbrains.kotlin.jvm" version "1.8.10"
+    id "java"
     id "maven-publish"
     id "signing"
     id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
-    id "org.jetbrains.kotlin.jvm" version "1.4.32"
 }
 
-
-defaultTasks 'run'
 
 repositories {
     mavenCentral()
-//    mavenLocal()
+    mavenLocal()
 }
 
-// https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_plugin_and_dependency_management
+
 dependencies {
-//    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
 
-    compile "com.github.holgerbrandl:kscript-annotations:1.2"
-
-    compile "org.jetbrains.kotlin:kotlin-script-runtime:$kotlin_version"
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("io.kotest:kotest-assertions-core:4.2.6")
-
+    testImplementation 'io.kotest:kotest-assertions-core:5.4.2'
 }
 
-sourceSets {
-    main {
-        java {
-//            srcDirs 'src/main/java'
-            exclude '**/*.kts' // gradle will otherwise try to compile them
 
-        }
-        kotlin {
-            exclude '**/*.kts' // gradle will otherwise try to compile them
-            exclude 'de/mpicbg/scicomp/bioinfo/igv/make_igv_session.kts'
-            // gradle will otherwise try to compile them
-        }
-    }
-}
+
+
+//http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
+group 'com.github.holgerbrandl'
+version '1.0-SNAPSHOT'
 
 java {
     withJavadocJar()
     withSourcesJar()
 }
-
-//http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
-group = 'com.github.holgerbrandl'
-version = '0.12'
 
 
 publishing {
@@ -73,30 +38,26 @@ publishing {
             from(components.java)
 
             pom {
-                name = "kutils"
-                description = 'A collection of kotlin utilities'
-                url = 'https://github.com/holgerbrandl/kutils'
-
+                name = 'kutils'
+                description = 'kravis is a Kotlin wrapper around ggplot2 to enabl data visualiation on the JVM'
+                url = 'https://github.com/holgerbrandl/kravis'
                 licenses {
                     license {
-                        name = 'MIT'
-                        url = 'https://github.com/holgerbrandl/kutils/blob/master/LICENSE'
+                        name = 'BSD-2'
+                        url = 'https://github.com/holgerbrandl/kravis/blob/master/LICENSE.txt'
                     }
                 }
-
-
-                scm {
-                    connection = 'scm:git:github.com/holgerbrandl/kutils.git'
-                    url = 'https://github.com/holgerbrandl/kutils.git'
-                }
-
-
                 developers {
                     developer {
                         id = 'holgerbrandl'
                         name = 'Holger Brandl'
                         email = 'holgerbrandl@gmail.com'
                     }
+                }
+                scm {
+                    connection = 'scm:git:github.com/holgerbrandl/kravis.git'
+                    developerConnection = 'scm:git:ssh://github.com/holgerbrandl/kravis.git'
+                    url = 'https://github.com/holgerbrandl/kravis.git'
                 }
             }
         }
@@ -107,9 +68,9 @@ publishing {
 nexusPublishing {
     repositories {
         sonatype {
-            snapshotRepositoryUrl = uri(project.properties["sonatypeStagingProfileId"])
-            username = project.properties["ossrhUsername"]
-            password = project.properties["ossrhPassword"]
+            snapshotRepositoryUrl = uri(project.findProperty("sonatypeStagingProfileId") ?: 'not_defined')
+            username = project.findProperty("ossrhUsername")  ?: 'not_defined'
+            password = project.findProperty("ossrhPassword") ?: 'not_defined'
         }
     }
 }
@@ -117,3 +78,4 @@ nexusPublishing {
 signing {
     sign publishing.publications.mavenJava
 }
+

@@ -1,7 +1,5 @@
 package kutils
 
-import java.util.*
-
 /**
  * Collection utils that I missed or are missing in Kotlin's stdlib.
  *
@@ -78,3 +76,59 @@ class BufferedIterator<A>(val wrappedIt: Iterator<A>) {
  *  @return  a buffered iterator producing the same values as this iterator.
  */
 fun <A> Iterator<A>.buffered() = BufferedIterator(this)
+
+
+/** See https://youtrack.jetbrains.com/issue/KT-41648 */
+fun <T, I> Sequence<T>.chunked(chunkIndicator: (T) -> I) = asIterable().chunked(chunkIndicator).asSequence()
+
+/** See https://youtrack.jetbrains.com/issue/KT-41648 */
+fun <T, I> Iterable<T>.chunked(chunkIndicator: (T) -> I): Iterable<List<T>> {
+    val underlyingSequence = this
+    return sequence {
+        val buffer = mutableListOf<T>()
+        var lastPredicate: I? = null
+
+        for(current in underlyingSequence) {
+            val curPredicate = chunkIndicator(current)
+            if(lastPredicate != curPredicate) {
+                yield(buffer.toList())
+                buffer.clear()
+            }
+            buffer.add(current)
+            lastPredicate = curPredicate
+        }
+        if(buffer.isNotEmpty()) {
+            yield(buffer)
+        }
+    }.asIterable()
+}
+
+/** See https://youtrack.jetbrains.com/issue/KT-41648 */
+fun <T, I> List<T>.chunked(chunkIndicator: (T) -> I): List<List<T>> {
+    val underlyingSequence = this
+    return buildList {
+        val buffer = mutableListOf<T>()
+        var lastPredicate: I? = null
+
+        for(current in underlyingSequence) {
+            val curPredicate = chunkIndicator(current)
+            if(lastPredicate != curPredicate) {
+                add(buffer.toList())
+                buffer.clear()
+            }
+            buffer.add(current)
+            lastPredicate = curPredicate
+        }
+        if(buffer.isNotEmpty()) {
+            add(buffer)
+        }
+    }
+}
+
+// examples
+fun main() {
+    // chunk by value
+    listOf("a", "a", "b", "a", "c").asIterable().chunked { it }
+    // chunk by first letter
+    listOf("ab", "ac", "ba", "aa", "c").asIterable().chunked { it[0] }
+}

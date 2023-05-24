@@ -14,7 +14,7 @@ repositories {
 
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.20'
 
     testImplementation 'io.kotest:kotest-assertions-core:5.4.2'
 }
@@ -24,7 +24,7 @@ dependencies {
 
 //http://stackoverflow.com/questions/34377367/why-is-gradle-install-replacing-my-version-with-unspecified
 group 'com.github.holgerbrandl'
-version '1.1-SNAPSHOT'
+version '1.1'
 
 java {
     withJavadocJar()
@@ -39,12 +39,12 @@ publishing {
 
             pom {
                 name = 'kutils'
-                description = 'kravis is a Kotlin wrapper around ggplot2 to enabl data visualiation on the JVM'
-                url = 'https://github.com/holgerbrandl/kravis'
+                description = 'A collection of kotlin utilities'
+                url = 'https://github.com/holgerbrandl/kutils'
                 licenses {
                     license {
                         name = 'BSD-2'
-                        url = 'https://github.com/holgerbrandl/kravis/blob/master/LICENSE.txt'
+                        url = 'https://github.com/holgerbrandl/kutils/blob/master/LICENSE.txt'
                     }
                 }
                 developers {
@@ -55,9 +55,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:github.com/holgerbrandl/kravis.git'
-                    developerConnection = 'scm:git:ssh://github.com/holgerbrandl/kravis.git'
-                    url = 'https://github.com/holgerbrandl/kravis.git'
+                    connection = 'scm:git:github.com/holgerbrandl/kutils.git'
+                    developerConnection = 'scm:git:ssh://github.com/holgerbrandl/kutils.git'
+                    url = 'https://github.com/holgerbrandl/kutils'
                 }
             }
         }

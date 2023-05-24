@@ -8,7 +8,7 @@ Release Checklist
 2. Do the central release
 
 ```bash
-#  cd /c/brandl_data/projects/misc/kscript-support-api
+#  cd /c/brandl_data/projects/misc/kutils
  
 ./gradlew jar
 
@@ -25,7 +25,7 @@ Release Checklist
 
 
 trim() { while read -r line; do echo "$line"; done; }
-kutils_version='v'$(grep '^version' build.gradle | cut -f3 -d' ' | tr -d "'" | trim)
+kutils_version='v'$(grep '^version' build.gradle | cut -f2 -d' ' | tr -d "'" | trim)
 
 echo "new version is $kutils_version"
 

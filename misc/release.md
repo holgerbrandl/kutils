@@ -37,10 +37,12 @@ if [[ $kutils_version == *"-SNAPSHOT" ]]; then
 fi
 
 git config  user.email "holgerbrandl@users.noreply.github.com"
+git status
+git commit -am "${kravis_version} release"
+
 
 # make sure that are no pending chanes
 git diff --exit-code  || echo "There are uncommitted changes"
-
 
 git tag "${kutils_version}"
 

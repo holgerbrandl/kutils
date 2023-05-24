@@ -1,5 +1,9 @@
 # Release Notes
 
+## 1.1
+
+Modernized dependencies
+
 ## 1.0
 
 * Removed all bioinfo utils
@@ -7,7 +11,7 @@
 * Cleaned up API
 * Modernized build and dependencies
 * Changed github namespace to `com.github.holgerbrandl`
-* Changed package to `kutils` 
+* Changed package to `kutils`
 
 ## 0.12
 
